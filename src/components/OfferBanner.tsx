@@ -26,27 +26,40 @@ export function OfferBanner({ offers }: OfferBannerProps) {
   return (
     <section className="px-4 py-3">
       {/* Promotional Banner */}
-      <div className="relative overflow-hidden rounded-2xl mb-4">
+      <div className="relative overflow-hidden rounded-2xl mb-4 shadow-md">
         <div 
           className="flex transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
-          {offers.map((offer) => (
+          {offers.map((offer, index) => (
             <div
               key={offer.id}
-              className={`flex-shrink-0 w-full ${offer.bgColor} p-5 rounded-2xl cursor-pointer`}
+              className={`flex-shrink-0 w-full ${offer.bgColor} p-5 rounded-2xl cursor-pointer relative overflow-hidden`}
             >
-              <div className="flex items-center justify-between">
-                <div>
+              {/* Background Pattern */}
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute -right-8 -top-8 w-32 h-32 border-4 border-white rounded-full" />
+                <div className="absolute -right-4 -bottom-4 w-24 h-24 border-4 border-white rounded-full" />
+              </div>
+              
+              <div className="relative flex items-center justify-between">
+                <div className="flex-1">
                   <p className="text-lg font-bold text-primary-foreground">{offer.title}</p>
                   <p className="text-sm text-primary-foreground/80 mt-1">{offer.subtitle}</p>
                   <div className="mt-3">
-                    <span className="inline-block bg-background/20 backdrop-blur px-3 py-1.5 rounded-lg text-sm font-bold text-primary-foreground">
+                    <span className="inline-block bg-white/20 backdrop-blur px-3 py-1.5 rounded-lg text-sm font-bold text-primary-foreground border border-white/30">
                       {offer.discount}
                     </span>
                   </div>
                 </div>
-                <ChevronRight className="w-6 h-6 text-primary-foreground/60" />
+                {/* Offer Image */}
+                <div className="w-20 h-20 flex-shrink-0 ml-3 opacity-80">
+                  <img 
+                    src={index === 0 ? "/images/equipment/fork-lift.png" : index === 1 ? "/images/equipment/tower-cranes.png" : "/images/products/hydraulic-valve.jpg"}
+                    alt=""
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               </div>
             </div>
           ))}
@@ -58,10 +71,10 @@ export function OfferBanner({ offers }: OfferBannerProps) {
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}
-              className={`h-1.5 rounded-full transition-all ${
+              className={`h-2 rounded-full transition-all ${
                 index === currentIndex 
                   ? 'bg-primary w-6' 
-                  : 'bg-muted-foreground/30 w-1.5'
+                  : 'bg-muted-foreground/30 w-2 hover:bg-muted-foreground/50'
               }`}
             />
           ))}
