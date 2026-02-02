@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, MoreVertical, QrCode, Wrench, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Plus, MoreVertical, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { supabase } from '@/integrations/supabase/client';
 import { BottomNav } from '@/components/BottomNav';
 import {
   DropdownMenu,
@@ -12,6 +11,55 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { equipmentTypes } from '@/data/mockData';
+import { DEMO_USER } from '@/hooks/useDemoUser';
+
+// Demo machines data
+const demoMachines = [
+  {
+    id: 'mac-001',
+    name: 'Pick & Carry Crane',
+    model: 'ACE 14XW',
+    serial_number: 'PC14XW-2024-0045',
+    equipment_type: 'pick-carry-cranes',
+    status: 'active',
+    last_service_date: '2024-12-15',
+    next_service_due: '2025-03-15',
+    image_url: '/images/equipment/pick-carry-cranes.png',
+  },
+  {
+    id: 'mac-002',
+    name: 'Tower Crane',
+    model: 'ACE TC-5013',
+    serial_number: 'TC5013-2023-0128',
+    equipment_type: 'tower-cranes',
+    status: 'maintenance',
+    last_service_date: '2025-01-20',
+    next_service_due: '2025-02-10',
+    image_url: '/images/equipment/tower-cranes.png',
+  },
+  {
+    id: 'mac-003',
+    name: 'Fork Lift',
+    model: 'ACE AF-30D',
+    serial_number: 'AF30D-2024-0089',
+    equipment_type: 'fork-lift',
+    status: 'active',
+    last_service_date: '2025-01-05',
+    next_service_due: '2025-04-05',
+    image_url: '/images/equipment/fork-lift.png',
+  },
+  {
+    id: 'mac-004',
+    name: 'Back Hoe Loader',
+    model: 'ACE AX-130',
+    serial_number: 'AX130-2024-0067',
+    equipment_type: 'back-hoe',
+    status: 'active',
+    last_service_date: '2025-01-10',
+    next_service_due: '2025-04-10',
+    image_url: '/images/equipment/back-hoe.png',
+  },
+];
 
 interface Equipment {
   id: string;
@@ -27,29 +75,7 @@ interface Equipment {
 
 export default function MyMachinesPage() {
   const navigate = useNavigate();
-  const [machines, setMachines] = useState<Equipment[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    fetchMachines();
-  }, []);
-
-  const fetchMachines = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      navigate('/auth');
-      return;
-    }
-
-    const { data } = await supabase
-      .from('user_equipment')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false });
-
-    if (data) setMachines(data);
-    setIsLoading(false);
-  };
+  const [machines] = useState<Equipment[]>(demoMachines);
 
   const getStatusColor = (status: string | null) => {
     switch (status) {
@@ -69,14 +95,6 @@ export default function MyMachinesPage() {
     if (!date) return false;
     return new Date(date) < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -122,11 +140,11 @@ export default function MyMachinesPage() {
                 onClick={() => navigate(`/machines/${machine.id}`)}
               >
                 <div className="flex gap-3">
-                  <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center text-2xl">
+                  <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center overflow-hidden">
                     {machine.image_url ? (
-                      <img src={machine.image_url} alt={machine.name} className="w-full h-full object-cover rounded-lg" />
+                      <img src={machine.image_url} alt={machine.name} className="w-full h-full object-contain" />
                     ) : (
-                      getEquipmentIcon(machine.equipment_type)
+                      <span className="text-2xl">{getEquipmentIcon(machine.equipment_type)}</span>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -137,7 +155,7 @@ export default function MyMachinesPage() {
                       </div>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                          <Button variant="ghost" size="icon-sm">
+                          <Button variant="ghost" size="icon">
                             <MoreVertical className="w-4 h-4" />
                           </Button>
                         </DropdownMenuTrigger>
@@ -156,7 +174,7 @@ export default function MyMachinesPage() {
                     )}
                     
                     <div className="flex items-center gap-2 mt-2">
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${getStatusColor(machine.status)}`}>
+                      <span className={`text-xs px-2 py-0.5 rounded-full capitalize ${getStatusColor(machine.status)}`}>
                         {machine.status || 'Unknown'}
                       </span>
                       

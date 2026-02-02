@@ -1,11 +1,51 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Package, Truck, CheckCircle2, XCircle, RefreshCw, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { supabase } from '@/integrations/supabase/client';
 import { BottomNav } from '@/components/BottomNav';
+import { DEMO_USER } from '@/hooks/useDemoUser';
+
+// Demo orders data
+const demoOrders = [
+  {
+    id: 'ord-001',
+    order_number: 'ACE-2025-001234',
+    total_amount: 24500,
+    status: 'shipped',
+    created_at: '2025-01-28T10:30:00Z',
+    estimated_delivery: '2025-02-03T18:00:00Z',
+    delivery_type: 'standard',
+  },
+  {
+    id: 'ord-002',
+    order_number: 'ACE-2025-001189',
+    total_amount: 8750,
+    status: 'confirmed',
+    created_at: '2025-01-30T14:20:00Z',
+    estimated_delivery: '2025-02-05T18:00:00Z',
+    delivery_type: 'fast-track',
+  },
+  {
+    id: 'ord-003',
+    order_number: 'ACE-2024-009876',
+    total_amount: 45000,
+    status: 'delivered',
+    created_at: '2024-12-15T09:00:00Z',
+    estimated_delivery: '2024-12-20T18:00:00Z',
+    delivery_type: 'standard',
+  },
+  {
+    id: 'ord-004',
+    order_number: 'ACE-2024-009654',
+    total_amount: 12300,
+    status: 'delivered',
+    created_at: '2024-11-28T11:45:00Z',
+    estimated_delivery: '2024-12-02T18:00:00Z',
+    delivery_type: 'standard',
+  },
+];
 
 interface Order {
   id: string;
@@ -19,29 +59,7 @@ interface Order {
 
 export default function MyOrdersPage() {
   const navigate = useNavigate();
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const fetchOrders = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      navigate('/auth');
-      return;
-    }
-
-    const { data } = await supabase
-      .from('orders')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false });
-
-    if (data) setOrders(data);
-    setIsLoading(false);
-  };
+  const [orders] = useState<Order[]>(demoOrders);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -126,14 +144,6 @@ export default function MyOrdersPage() {
       </Button>
     </div>
   );
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background pb-20">

@@ -65,11 +65,23 @@ export default function CategoriesPage() {
             {categories.map(category => (
               <Card 
                 key={category.id}
-                className="p-4 cursor-pointer hover:shadow-md transition-shadow"
+                className="p-4 cursor-pointer hover:shadow-md transition-shadow overflow-hidden"
                 onClick={() => navigate(`/categories/${category.id}`)}
               >
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-2xl mb-3">
-                  {category.icon}
+                <div className="w-full h-20 bg-muted rounded-lg flex items-center justify-center mb-3 overflow-hidden">
+                  {category.image ? (
+                    <img 
+                      src={category.image} 
+                      alt={category.name} 
+                      className="w-full h-full object-contain"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                        (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                      }}
+                    />
+                  ) : (
+                    <span className="text-2xl">{category.icon}</span>
+                  )}
                 </div>
                 <h3 className="font-medium text-sm">{category.name}</h3>
                 <p className="text-xs text-muted-foreground">({category.productCount}+ parts)</p>
