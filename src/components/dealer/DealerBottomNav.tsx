@@ -1,4 +1,4 @@
-import { Home, Package, Boxes, BarChart3, User } from 'lucide-react';
+import { Home, Package, Boxes, BarChart3, User, Wrench, Calendar } from 'lucide-react';
 
 interface NavItem {
   icon: typeof Home;
@@ -8,9 +8,9 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { icon: Home, label: 'Dashboard', path: '/dealer' },
+  { icon: Wrench, label: 'Service', path: '/dealer/service' },
+  { icon: Calendar, label: 'Calendar', path: '/dealer/calendar' },
   { icon: Package, label: 'Orders', path: '/dealer/orders' },
-  { icon: Boxes, label: 'Inventory', path: '/dealer/inventory' },
-  { icon: BarChart3, label: 'Analytics', path: '/dealer/analytics' },
   { icon: User, label: 'Account', path: '/dealer/account' },
 ];
 

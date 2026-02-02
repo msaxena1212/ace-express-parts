@@ -89,6 +89,60 @@ export type Database = {
         }
         Relationships: []
       }
+      dealer_calendar_slots: {
+        Row: {
+          booked_maintenance_task_id: string | null
+          booked_service_request_id: string | null
+          created_at: string
+          dealer_id: string
+          id: string
+          is_available: boolean | null
+          notes: string | null
+          slot_date: string
+          technician_id: string | null
+          time_slot: string
+        }
+        Insert: {
+          booked_maintenance_task_id?: string | null
+          booked_service_request_id?: string | null
+          created_at?: string
+          dealer_id: string
+          id?: string
+          is_available?: boolean | null
+          notes?: string | null
+          slot_date: string
+          technician_id?: string | null
+          time_slot: string
+        }
+        Update: {
+          booked_maintenance_task_id?: string | null
+          booked_service_request_id?: string | null
+          created_at?: string
+          dealer_id?: string
+          id?: string
+          is_available?: boolean | null
+          notes?: string | null
+          slot_date?: string
+          technician_id?: string | null
+          time_slot?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dealer_calendar_slots_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dealer_calendar_slots_technician_id_fkey"
+            columns: ["technician_id"]
+            isOneToOne: false
+            referencedRelation: "dealer_technicians"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       dealer_customers: {
         Row: {
           created_at: string
@@ -193,52 +247,117 @@ export type Database = {
       dealer_metrics: {
         Row: {
           average_order_value: number | null
+          avg_response_time_hours: number | null
           created_at: string
           customer_satisfaction_rating: number | null
+          dead_stock_value: number | null
           dealer_id: string
+          first_time_fix_rate: number | null
           id: string
+          inventory_turns: number | null
           new_customers: number | null
           on_time_delivery_rate: number | null
           orders_cancelled: number | null
+          parts_attach_rate: number | null
           period_end: string
           period_start: string
+          quote_to_order_rate: number | null
           repeat_customers: number | null
+          sla_compliance_rate: number | null
           total_orders: number | null
           total_revenue: number | null
         }
         Insert: {
           average_order_value?: number | null
+          avg_response_time_hours?: number | null
           created_at?: string
           customer_satisfaction_rating?: number | null
+          dead_stock_value?: number | null
           dealer_id: string
+          first_time_fix_rate?: number | null
           id?: string
+          inventory_turns?: number | null
           new_customers?: number | null
           on_time_delivery_rate?: number | null
           orders_cancelled?: number | null
+          parts_attach_rate?: number | null
           period_end: string
           period_start: string
+          quote_to_order_rate?: number | null
           repeat_customers?: number | null
+          sla_compliance_rate?: number | null
           total_orders?: number | null
           total_revenue?: number | null
         }
         Update: {
           average_order_value?: number | null
+          avg_response_time_hours?: number | null
           created_at?: string
           customer_satisfaction_rating?: number | null
+          dead_stock_value?: number | null
           dealer_id?: string
+          first_time_fix_rate?: number | null
           id?: string
+          inventory_turns?: number | null
           new_customers?: number | null
           on_time_delivery_rate?: number | null
           orders_cancelled?: number | null
+          parts_attach_rate?: number | null
           period_end?: string
           period_start?: string
+          quote_to_order_rate?: number | null
           repeat_customers?: number | null
+          sla_compliance_rate?: number | null
           total_orders?: number | null
           total_revenue?: number | null
         }
         Relationships: [
           {
             foreignKeyName: "dealer_metrics_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dealer_notes: {
+        Row: {
+          author_id: string
+          content: string
+          created_at: string
+          dealer_id: string
+          id: string
+          is_internal: boolean | null
+          mentioned_user_ids: string[] | null
+          reference_id: string
+          reference_type: string
+        }
+        Insert: {
+          author_id: string
+          content: string
+          created_at?: string
+          dealer_id: string
+          id?: string
+          is_internal?: boolean | null
+          mentioned_user_ids?: string[] | null
+          reference_id: string
+          reference_type: string
+        }
+        Update: {
+          author_id?: string
+          content?: string
+          created_at?: string
+          dealer_id?: string
+          id?: string
+          is_internal?: boolean | null
+          mentioned_user_ids?: string[] | null
+          reference_id?: string
+          reference_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dealer_notes_dealer_id_fkey"
             columns: ["dealer_id"]
             isOneToOne: false
             referencedRelation: "dealers"
@@ -314,6 +433,246 @@ export type Database = {
           },
         ]
       }
+      dealer_price_overrides: {
+        Row: {
+          category: string | null
+          created_at: string
+          customer_id: string | null
+          dealer_id: string
+          discount_type: string | null
+          discount_value: number
+          id: string
+          is_active: boolean | null
+          min_quantity: number | null
+          product_id: string | null
+          valid_from: string | null
+          valid_until: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          customer_id?: string | null
+          dealer_id: string
+          discount_type?: string | null
+          discount_value: number
+          id?: string
+          is_active?: boolean | null
+          min_quantity?: number | null
+          product_id?: string | null
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          customer_id?: string | null
+          dealer_id?: string
+          discount_type?: string | null
+          discount_value?: number
+          id?: string
+          is_active?: boolean | null
+          min_quantity?: number | null
+          product_id?: string | null
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dealer_price_overrides_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dealer_price_overrides_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dealer_quotes: {
+        Row: {
+          accepted_at: string | null
+          converted_order_id: string | null
+          created_at: string
+          customer_id: string
+          dealer_id: string
+          discount_amount: number | null
+          id: string
+          items: Json | null
+          notes: string | null
+          quote_number: string
+          status: string | null
+          subtotal: number | null
+          tax_amount: number | null
+          terms_conditions: string | null
+          total_amount: number | null
+          updated_at: string
+          valid_until: string | null
+          version: number | null
+        }
+        Insert: {
+          accepted_at?: string | null
+          converted_order_id?: string | null
+          created_at?: string
+          customer_id: string
+          dealer_id: string
+          discount_amount?: number | null
+          id?: string
+          items?: Json | null
+          notes?: string | null
+          quote_number: string
+          status?: string | null
+          subtotal?: number | null
+          tax_amount?: number | null
+          terms_conditions?: string | null
+          total_amount?: number | null
+          updated_at?: string
+          valid_until?: string | null
+          version?: number | null
+        }
+        Update: {
+          accepted_at?: string | null
+          converted_order_id?: string | null
+          created_at?: string
+          customer_id?: string
+          dealer_id?: string
+          discount_amount?: number | null
+          id?: string
+          items?: Json | null
+          notes?: string | null
+          quote_number?: string
+          status?: string | null
+          subtotal?: number | null
+          tax_amount?: number | null
+          terms_conditions?: string | null
+          total_amount?: number | null
+          updated_at?: string
+          valid_until?: string | null
+          version?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dealer_quotes_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dealer_tasks: {
+        Row: {
+          assigned_to: string | null
+          completed_at: string | null
+          created_at: string
+          dealer_id: string
+          description: string | null
+          due_date: string | null
+          id: string
+          priority: string | null
+          reference_id: string | null
+          reference_type: string | null
+          status: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          created_at?: string
+          dealer_id: string
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          priority?: string | null
+          reference_id?: string | null
+          reference_type?: string | null
+          status?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to?: string | null
+          completed_at?: string | null
+          created_at?: string
+          dealer_id?: string
+          description?: string | null
+          due_date?: string | null
+          id?: string
+          priority?: string | null
+          reference_id?: string | null
+          reference_type?: string | null
+          status?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dealer_tasks_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dealer_technicians: {
+        Row: {
+          created_at: string
+          current_workload: number | null
+          daily_capacity: number | null
+          dealer_id: string
+          email: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          phone: string | null
+          specializations: string[] | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          current_workload?: number | null
+          daily_capacity?: number | null
+          dealer_id: string
+          email?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          phone?: string | null
+          specializations?: string[] | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          current_workload?: number | null
+          daily_capacity?: number | null
+          dealer_id?: string
+          email?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          phone?: string | null
+          specializations?: string[] | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dealer_technicians_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       dealers: {
         Row: {
           contact_person: string | null
@@ -358,6 +717,406 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      loyalty_accounts: {
+        Row: {
+          available_points: number | null
+          created_at: string
+          current_tier_id: string | null
+          id: string
+          lifetime_value: number | null
+          referral_code: string | null
+          referred_by_user_id: string | null
+          total_points_earned: number | null
+          total_points_redeemed: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          available_points?: number | null
+          created_at?: string
+          current_tier_id?: string | null
+          id?: string
+          lifetime_value?: number | null
+          referral_code?: string | null
+          referred_by_user_id?: string | null
+          total_points_earned?: number | null
+          total_points_redeemed?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          available_points?: number | null
+          created_at?: string
+          current_tier_id?: string | null
+          id?: string
+          lifetime_value?: number | null
+          referral_code?: string | null
+          referred_by_user_id?: string | null
+          total_points_earned?: number | null
+          total_points_redeemed?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loyalty_accounts_current_tier_id_fkey"
+            columns: ["current_tier_id"]
+            isOneToOne: false
+            referencedRelation: "loyalty_tiers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loyalty_tiers: {
+        Row: {
+          badge_color: string | null
+          benefits: Json | null
+          created_at: string
+          id: string
+          is_active: boolean | null
+          max_points: number | null
+          min_points: number
+          multiplier: number | null
+          name: string
+        }
+        Insert: {
+          badge_color?: string | null
+          benefits?: Json | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          max_points?: number | null
+          min_points?: number
+          multiplier?: number | null
+          name: string
+        }
+        Update: {
+          badge_color?: string | null
+          benefits?: Json | null
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          max_points?: number | null
+          min_points?: number
+          multiplier?: number | null
+          name?: string
+        }
+        Relationships: []
+      }
+      loyalty_transactions: {
+        Row: {
+          balance_after: number
+          created_at: string
+          description: string | null
+          expires_at: string | null
+          id: string
+          loyalty_account_id: string
+          points: number
+          reference_id: string | null
+          reference_type: string | null
+          source: string | null
+          type: string
+        }
+        Insert: {
+          balance_after: number
+          created_at?: string
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          loyalty_account_id: string
+          points: number
+          reference_id?: string | null
+          reference_type?: string | null
+          source?: string | null
+          type: string
+        }
+        Update: {
+          balance_after?: number
+          created_at?: string
+          description?: string | null
+          expires_at?: string | null
+          id?: string
+          loyalty_account_id?: string
+          points?: number
+          reference_id?: string | null
+          reference_type?: string | null
+          source?: string | null
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loyalty_transactions_loyalty_account_id_fkey"
+            columns: ["loyalty_account_id"]
+            isOneToOne: false
+            referencedRelation: "loyalty_accounts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      machine_costs: {
+        Row: {
+          amount: number
+          cost_type: string
+          created_at: string
+          description: string | null
+          id: string
+          incurred_at: string | null
+          machine_id: string
+          operating_hours_at_time: number | null
+          reference_id: string | null
+          reference_type: string | null
+        }
+        Insert: {
+          amount: number
+          cost_type: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          incurred_at?: string | null
+          machine_id: string
+          operating_hours_at_time?: number | null
+          reference_id?: string | null
+          reference_type?: string | null
+        }
+        Update: {
+          amount?: number
+          cost_type?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          incurred_at?: string | null
+          machine_id?: string
+          operating_hours_at_time?: number | null
+          reference_id?: string | null
+          reference_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "machine_costs_machine_id_fkey"
+            columns: ["machine_id"]
+            isOneToOne: false
+            referencedRelation: "user_equipment"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      machine_downtime: {
+        Row: {
+          created_at: string
+          duration_hours: number | null
+          end_time: string | null
+          id: string
+          impact_level: string | null
+          is_planned: boolean | null
+          machine_id: string
+          maintenance_task_id: string | null
+          reason: string | null
+          service_request_id: string | null
+          start_time: string
+        }
+        Insert: {
+          created_at?: string
+          duration_hours?: number | null
+          end_time?: string | null
+          id?: string
+          impact_level?: string | null
+          is_planned?: boolean | null
+          machine_id: string
+          maintenance_task_id?: string | null
+          reason?: string | null
+          service_request_id?: string | null
+          start_time: string
+        }
+        Update: {
+          created_at?: string
+          duration_hours?: number | null
+          end_time?: string | null
+          id?: string
+          impact_level?: string | null
+          is_planned?: boolean | null
+          machine_id?: string
+          maintenance_task_id?: string | null
+          reason?: string | null
+          service_request_id?: string | null
+          start_time?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "machine_downtime_machine_id_fkey"
+            columns: ["machine_id"]
+            isOneToOne: false
+            referencedRelation: "user_equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "machine_downtime_maintenance_task_id_fkey"
+            columns: ["maintenance_task_id"]
+            isOneToOne: false
+            referencedRelation: "maintenance_tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "machine_downtime_service_request_id_fkey"
+            columns: ["service_request_id"]
+            isOneToOne: false
+            referencedRelation: "service_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      maintenance_plans: {
+        Row: {
+          created_at: string
+          criticality: string | null
+          default_assignee: string | null
+          description: string | null
+          equipment_type: string | null
+          grace_window_days: number | null
+          grace_window_hours: number | null
+          id: string
+          interval_days: number | null
+          interval_hours: number | null
+          interval_type: string
+          is_active: boolean | null
+          model_ids: string[] | null
+          name: string
+          required_parts: Json | null
+          required_tasks: Json | null
+          scope: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          criticality?: string | null
+          default_assignee?: string | null
+          description?: string | null
+          equipment_type?: string | null
+          grace_window_days?: number | null
+          grace_window_hours?: number | null
+          id?: string
+          interval_days?: number | null
+          interval_hours?: number | null
+          interval_type?: string
+          is_active?: boolean | null
+          model_ids?: string[] | null
+          name: string
+          required_parts?: Json | null
+          required_tasks?: Json | null
+          scope?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          criticality?: string | null
+          default_assignee?: string | null
+          description?: string | null
+          equipment_type?: string | null
+          grace_window_days?: number | null
+          grace_window_hours?: number | null
+          id?: string
+          interval_days?: number | null
+          interval_hours?: number | null
+          interval_type?: string
+          is_active?: boolean | null
+          model_ids?: string[] | null
+          name?: string
+          required_parts?: Json | null
+          required_tasks?: Json | null
+          scope?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      maintenance_tasks: {
+        Row: {
+          actual_hours: number | null
+          assignee_id: string | null
+          assignee_type: string | null
+          completed_at: string | null
+          created_at: string
+          due_date: string | null
+          due_hours: number | null
+          id: string
+          labor_time: number | null
+          machine_id: string
+          notes: string | null
+          origin: string | null
+          parts_used: Json | null
+          plan_id: string | null
+          priority: string | null
+          scheduled_date: string | null
+          scheduled_time_slot: string | null
+          service_request_id: string | null
+          status: string
+          total_cost: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          actual_hours?: number | null
+          assignee_id?: string | null
+          assignee_type?: string | null
+          completed_at?: string | null
+          created_at?: string
+          due_date?: string | null
+          due_hours?: number | null
+          id?: string
+          labor_time?: number | null
+          machine_id: string
+          notes?: string | null
+          origin?: string | null
+          parts_used?: Json | null
+          plan_id?: string | null
+          priority?: string | null
+          scheduled_date?: string | null
+          scheduled_time_slot?: string | null
+          service_request_id?: string | null
+          status?: string
+          total_cost?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          actual_hours?: number | null
+          assignee_id?: string | null
+          assignee_type?: string | null
+          completed_at?: string | null
+          created_at?: string
+          due_date?: string | null
+          due_hours?: number | null
+          id?: string
+          labor_time?: number | null
+          machine_id?: string
+          notes?: string | null
+          origin?: string | null
+          parts_used?: Json | null
+          plan_id?: string | null
+          priority?: string | null
+          scheduled_date?: string | null
+          scheduled_time_slot?: string | null
+          service_request_id?: string | null
+          status?: string
+          total_cost?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_tasks_machine_id_fkey"
+            columns: ["machine_id"]
+            isOneToOne: false
+            referencedRelation: "user_equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_tasks_plan_id_fkey"
+            columns: ["plan_id"]
+            isOneToOne: false
+            referencedRelation: "maintenance_plans"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       order_items: {
         Row: {
@@ -699,52 +1458,210 @@ export type Database = {
         }
         Relationships: []
       }
+      referrals: {
+        Row: {
+          campaign: string | null
+          channel: string | null
+          created_at: string
+          first_order_id: string | null
+          id: string
+          qualification_event: string | null
+          referral_code: string
+          referred_reward_discount: number | null
+          referred_user_id: string | null
+          referrer_reward_points: number | null
+          referrer_user_id: string
+          rewarded_at: string | null
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          campaign?: string | null
+          channel?: string | null
+          created_at?: string
+          first_order_id?: string | null
+          id?: string
+          qualification_event?: string | null
+          referral_code: string
+          referred_reward_discount?: number | null
+          referred_user_id?: string | null
+          referrer_reward_points?: number | null
+          referrer_user_id: string
+          rewarded_at?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          campaign?: string | null
+          channel?: string | null
+          created_at?: string
+          first_order_id?: string | null
+          id?: string
+          qualification_event?: string | null
+          referral_code?: string
+          referred_reward_discount?: number | null
+          referred_user_id?: string | null
+          referrer_reward_points?: number | null
+          referrer_user_id?: string
+          rewarded_at?: string | null
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      service_request_logs: {
+        Row: {
+          action: string
+          actor_id: string | null
+          actor_type: string
+          attachments: Json | null
+          cost_update: number | null
+          created_at: string
+          id: string
+          new_status: string | null
+          notes: string | null
+          old_status: string | null
+          service_request_id: string
+          visibility: string | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          actor_type: string
+          attachments?: Json | null
+          cost_update?: number | null
+          created_at?: string
+          id?: string
+          new_status?: string | null
+          notes?: string | null
+          old_status?: string | null
+          service_request_id: string
+          visibility?: string | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          actor_type?: string
+          attachments?: Json | null
+          cost_update?: number | null
+          created_at?: string
+          id?: string
+          new_status?: string | null
+          notes?: string | null
+          old_status?: string | null
+          service_request_id?: string
+          visibility?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_request_logs_service_request_id_fkey"
+            columns: ["service_request_id"]
+            isOneToOne: false
+            referencedRelation: "service_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       service_requests: {
         Row: {
           actual_cost: number | null
+          after_photos: Json | null
           assigned_dealer_id: string | null
+          attachments: Json | null
+          before_photos: Json | null
+          channel: string | null
+          code: string | null
+          completion_notes: string | null
           created_at: string
+          customer_signature: string | null
+          dealer_id: string | null
           description: string | null
           equipment_id: string | null
           estimated_cost: number | null
           id: string
+          linked_maintenance_task_id: string | null
+          linked_order_ids: string[] | null
           preferred_date: string | null
           preferred_time_slot: string | null
           priority: string | null
+          scheduled_date: string | null
+          scheduled_time_slot: string | null
           service_type: string
+          sla_breach_time: string | null
+          sla_status: string | null
+          sla_target_time: string | null
+          source: string | null
           status: string | null
+          symptoms: Json | null
+          technician_id: string | null
           updated_at: string
           user_id: string
         }
         Insert: {
           actual_cost?: number | null
+          after_photos?: Json | null
           assigned_dealer_id?: string | null
+          attachments?: Json | null
+          before_photos?: Json | null
+          channel?: string | null
+          code?: string | null
+          completion_notes?: string | null
           created_at?: string
+          customer_signature?: string | null
+          dealer_id?: string | null
           description?: string | null
           equipment_id?: string | null
           estimated_cost?: number | null
           id?: string
+          linked_maintenance_task_id?: string | null
+          linked_order_ids?: string[] | null
           preferred_date?: string | null
           preferred_time_slot?: string | null
           priority?: string | null
+          scheduled_date?: string | null
+          scheduled_time_slot?: string | null
           service_type?: string
+          sla_breach_time?: string | null
+          sla_status?: string | null
+          sla_target_time?: string | null
+          source?: string | null
           status?: string | null
+          symptoms?: Json | null
+          technician_id?: string | null
           updated_at?: string
           user_id: string
         }
         Update: {
           actual_cost?: number | null
+          after_photos?: Json | null
           assigned_dealer_id?: string | null
+          attachments?: Json | null
+          before_photos?: Json | null
+          channel?: string | null
+          code?: string | null
+          completion_notes?: string | null
           created_at?: string
+          customer_signature?: string | null
+          dealer_id?: string | null
           description?: string | null
           equipment_id?: string | null
           estimated_cost?: number | null
           id?: string
+          linked_maintenance_task_id?: string | null
+          linked_order_ids?: string[] | null
           preferred_date?: string | null
           preferred_time_slot?: string | null
           priority?: string | null
+          scheduled_date?: string | null
+          scheduled_time_slot?: string | null
           service_type?: string
+          sla_breach_time?: string | null
+          sla_status?: string | null
+          sla_target_time?: string | null
+          source?: string | null
           status?: string | null
+          symptoms?: Json | null
+          technician_id?: string | null
           updated_at?: string
           user_id?: string
         }
