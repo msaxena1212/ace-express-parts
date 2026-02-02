@@ -11,3 +11,9 @@ verify_jwt = false
 
 [functions.cart]
 verify_jwt = false
+
+[functions.tracking]
+verify_jwt = false
+
+[functions.wishlist]
+verify_jwt = false

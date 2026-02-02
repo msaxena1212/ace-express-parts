@@ -18,6 +18,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import MyOrdersPage from "./pages/MyOrdersPage";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
+import OrderTrackingPage from "./pages/OrderTrackingPage";
 import MyMachinesPage from "./pages/MyMachinesPage";
 import AddMachinePage from "./pages/AddMachinePage";
 import MachineDetailsPage from "./pages/MachineDetailsPage";
@@ -25,6 +26,13 @@ import CategoriesPage from "./pages/CategoriesPage";
 import CategoryProductsPage from "./pages/CategoryProductsPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import AccountPage from "./pages/AccountPage";
+import WishlistPage from "./pages/WishlistPage";
+import DealerDashboard from "./pages/dealer/DealerDashboard";
+import DealerOrders from "./pages/dealer/DealerOrders";
+import DealerInventory from "./pages/dealer/DealerInventory";
+import DealerAnalytics from "./pages/dealer/DealerAnalytics";
+import DealerOffers from "./pages/dealer/DealerOffers";
+import DealerCustomers from "./pages/dealer/DealerCustomers";
 
 const queryClient = new QueryClient();
 
@@ -76,6 +84,10 @@ const App = () => {
             {/* Orders Routes */}
             <Route path="/orders" element={<MyOrdersPage />} />
             <Route path="/orders/:orderId" element={<OrderDetailsPage />} />
+            <Route path="/orders/:orderId/track" element={<OrderTrackingPage />} />
+            
+            {/* Wishlist */}
+            <Route path="/wishlist" element={<WishlistPage onAddToCart={handleAddToCart} />} />
             
             {/* Machines Routes */}
             <Route path="/machines" element={<MyMachinesPage />} />
@@ -89,6 +101,14 @@ const App = () => {
             
             {/* Account Routes */}
             <Route path="/account" element={<AccountPage />} />
+            
+            {/* Dealer Routes */}
+            <Route path="/dealer" element={<DealerDashboard />} />
+            <Route path="/dealer/orders" element={<DealerOrders />} />
+            <Route path="/dealer/inventory" element={<DealerInventory />} />
+            <Route path="/dealer/analytics" element={<DealerAnalytics />} />
+            <Route path="/dealer/offers" element={<DealerOffers />} />
+            <Route path="/dealer/customers" element={<DealerCustomers />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

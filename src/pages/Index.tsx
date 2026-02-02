@@ -208,7 +208,6 @@ const Index = ({ cart, setCart, onAddToCart }: IndexProps) => {
       <SearchModal 
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
-        onSelectProduct={handleSelectProduct}
       />
     </div>
   );
