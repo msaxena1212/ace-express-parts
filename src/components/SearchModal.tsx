@@ -8,8 +8,8 @@ interface SearchModalProps {
   onSelectProduct: (product: Product) => void;
 }
 
-const recentSearches = ['Oil Filter', 'Hydraulic Pump', 'Brake Pads', 'Alternator'];
-const trendingSearches = ['Turbocharger', 'Transmission Kit', 'Air Filter', 'Engine Parts'];
+const recentSearches = ['Hydraulic Filter', 'Boom Cylinder', 'Brake Pads', 'Alternator'];
+const trendingSearches = ['Crane Parts', 'Engine Filter', 'Transmission Kit', 'Fork Lift Parts'];
 
 export function SearchModal({ isOpen, onClose, onSelectProduct }: SearchModalProps) {
   const [query, setQuery] = useState('');
@@ -35,15 +35,15 @@ export function SearchModal({ isOpen, onClose, onSelectProduct }: SearchModalPro
       {/* Search Header */}
       <div className="sticky top-0 bg-card border-b border-border p-4 safe-top">
         <div className="flex items-center gap-3">
-          <div className="flex-1 flex items-center gap-3 bg-muted rounded-lg px-4 py-2.5">
-            <Search className="w-5 h-5 text-muted-foreground" />
+          <div className="flex-1 flex items-center gap-3 bg-background border border-border rounded-xl px-4 py-3">
+            <Search className="w-5 h-5 text-primary" />
             <input
               type="text"
-              placeholder="Search parts, equipment..."
+              placeholder="Search genuine ACE parts..."
               value={query}
               onChange={(e) => handleSearch(e.target.value)}
               autoFocus
-              className="flex-1 bg-transparent text-body outline-none placeholder:text-muted-foreground"
+              className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground text-foreground"
             />
             {query && (
               <button onClick={() => handleSearch('')}>
@@ -51,7 +51,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct }: SearchModalPro
               </button>
             )}
           </div>
-          <button onClick={onClose} className="text-body font-medium text-primary">
+          <button onClick={onClose} className="text-sm font-medium text-primary">
             Cancel
           </button>
         </div>
@@ -68,16 +68,16 @@ export function SearchModal({ isOpen, onClose, onSelectProduct }: SearchModalPro
                   onSelectProduct(product);
                   onClose();
                 }}
-                className="w-full flex items-center gap-3 p-3 bg-card rounded-lg hover:bg-muted transition-colors text-left"
+                className="w-full flex items-center gap-3 p-3 bg-card border border-border rounded-xl hover:border-primary/50 transition-colors text-left"
               >
-                <div className="w-12 h-12 bg-muted rounded flex-shrink-0">
+                <div className="w-12 h-12 bg-muted rounded-lg flex-shrink-0 border border-border">
                   <img src={product.image} alt="" className="w-full h-full object-contain" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-body font-medium truncate">{product.name}</p>
-                  <p className="text-body-sm text-muted-foreground font-mono">{product.partNumber}</p>
+                  <p className="text-sm font-medium truncate text-foreground">{product.name}</p>
+                  <p className="text-xs text-primary font-mono">{product.partNumber}</p>
                 </div>
-                <p className="text-body font-semibold">₹{product.price.toLocaleString()}</p>
+                <p className="text-sm font-semibold text-foreground">₹{product.price.toLocaleString()}</p>
               </button>
             ))}
           </div>
@@ -85,7 +85,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct }: SearchModalPro
           <>
             {/* Recent Searches */}
             <div className="mb-6">
-              <h3 className="text-body-sm font-semibold text-muted-foreground mb-3 flex items-center gap-2">
+              <h3 className="text-xs font-semibold text-muted-foreground mb-3 flex items-center gap-2">
                 <Clock className="w-4 h-4" />
                 Recent Searches
               </h3>
@@ -94,7 +94,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct }: SearchModalPro
                   <button
                     key={term}
                     onClick={() => handleSearch(term)}
-                    className="px-3 py-1.5 bg-muted rounded-pill text-body-sm hover:bg-muted/80 transition-colors"
+                    className="px-3 py-1.5 bg-card border border-border rounded-full text-xs hover:border-primary/50 transition-colors text-foreground"
                   >
                     {term}
                   </button>
@@ -104,7 +104,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct }: SearchModalPro
 
             {/* Trending Searches */}
             <div>
-              <h3 className="text-body-sm font-semibold text-muted-foreground mb-3 flex items-center gap-2">
+              <h3 className="text-xs font-semibold text-muted-foreground mb-3 flex items-center gap-2">
                 <TrendingUp className="w-4 h-4" />
                 Trending Searches
               </h3>
@@ -113,7 +113,7 @@ export function SearchModal({ isOpen, onClose, onSelectProduct }: SearchModalPro
                   <button
                     key={term}
                     onClick={() => handleSearch(term)}
-                    className="px-3 py-1.5 bg-primary/10 text-primary rounded-pill text-body-sm hover:bg-primary/20 transition-colors"
+                    className="px-3 py-1.5 bg-orange-subtle text-primary rounded-full text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors"
                   >
                     {term}
                   </button>

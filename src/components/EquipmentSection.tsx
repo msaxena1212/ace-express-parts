@@ -14,10 +14,10 @@ export function EquipmentSection({ equipment, onEquipmentClick, onAddEquipment }
     <section className="px-4 py-4">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <h2 className="text-h4 font-semibold">My Equipment</h2>
-          <p className="text-body-sm text-muted-foreground">{equipment.length} machines registered</p>
+          <h2 className="text-base font-semibold text-foreground">My Equipment</h2>
+          <p className="text-xs text-muted-foreground">{equipment.length} machines registered</p>
         </div>
-        <Button variant="ace-outline" size="sm" onClick={onAddEquipment}>
+        <Button variant="ace-outline" size="sm" onClick={onAddEquipment} className="h-8">
           <Plus className="w-4 h-4" />
           Add
         </Button>

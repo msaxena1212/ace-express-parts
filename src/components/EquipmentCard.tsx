@@ -8,8 +8,8 @@ interface EquipmentCardProps {
 
 export function EquipmentCard({ equipment, onClick }: EquipmentCardProps) {
   const statusConfig = {
-    active: { label: 'Active', color: 'bg-success/10 text-success', icon: CheckCircle },
-    maintenance: { label: 'In Maintenance', color: 'bg-warning/10 text-warning', icon: Wrench },
+    active: { label: 'Active', color: 'bg-success-subtle text-success', icon: CheckCircle },
+    maintenance: { label: 'In Maintenance', color: 'bg-warning-subtle text-warning', icon: Wrench },
     inactive: { label: 'Inactive', color: 'bg-muted text-muted-foreground', icon: AlertTriangle },
   };
 
@@ -19,9 +19,9 @@ export function EquipmentCard({ equipment, onClick }: EquipmentCardProps) {
   return (
     <button
       onClick={() => onClick(equipment.id)}
-      className="flex items-center gap-3 bg-card p-3 rounded-lg shadow-ace-sm hover:shadow-ace-md transition-all w-full text-left active:scale-[0.98]"
+      className="flex items-center gap-3 bg-card border border-border p-3 rounded-xl hover:border-primary/50 transition-all w-full text-left active:scale-[0.99]"
     >
-      <div className="w-16 h-16 bg-muted rounded-lg flex-shrink-0 overflow-hidden">
+      <div className="w-14 h-14 bg-muted rounded-xl flex-shrink-0 overflow-hidden border border-border">
         <img 
           src={equipment.image} 
           alt={equipment.name}
@@ -30,9 +30,9 @@ export function EquipmentCard({ equipment, onClick }: EquipmentCardProps) {
       </div>
       
       <div className="flex-1 min-w-0">
-        <p className="text-body font-medium truncate">{equipment.name}</p>
-        <p className="text-body-sm text-muted-foreground">{equipment.model}</p>
-        <div className={`inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-pill text-body-sm font-medium ${status.color}`}>
+        <p className="text-sm font-medium truncate text-foreground">{equipment.name}</p>
+        <p className="text-xs text-muted-foreground">{equipment.model}</p>
+        <div className={`inline-flex items-center gap-1 mt-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium ${status.color}`}>
           <StatusIcon className="w-3 h-3" />
           {status.label}
         </div>
