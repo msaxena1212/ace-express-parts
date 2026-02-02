@@ -27,12 +27,23 @@ import CategoryProductsPage from "./pages/CategoryProductsPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import AccountPage from "./pages/AccountPage";
 import WishlistPage from "./pages/WishlistPage";
+// Dealer Portal
 import DealerDashboard from "./pages/dealer/DealerDashboard";
 import DealerOrders from "./pages/dealer/DealerOrders";
 import DealerInventory from "./pages/dealer/DealerInventory";
 import DealerAnalytics from "./pages/dealer/DealerAnalytics";
 import DealerOffers from "./pages/dealer/DealerOffers";
 import DealerCustomers from "./pages/dealer/DealerCustomers";
+import DealerServiceQueue from "./pages/dealer/DealerServiceQueue";
+import DealerCalendar from "./pages/dealer/DealerCalendar";
+import DealerQuotes from "./pages/dealer/DealerQuotes";
+import DealerTechnicians from "./pages/dealer/DealerTechnicians";
+// Customer Modules
+import MaintenanceDashboard from "./pages/maintenance/MaintenanceDashboard";
+import ServiceRequestPage from "./pages/service/ServiceRequestPage";
+import ServiceRequestsList from "./pages/service/ServiceRequestsList";
+import LoyaltyDashboard from "./pages/loyalty/LoyaltyDashboard";
+import FleetAnalytics from "./pages/analytics/FleetAnalytics";
 
 const queryClient = new QueryClient();
 
@@ -109,6 +120,23 @@ const App = () => {
             <Route path="/dealer/analytics" element={<DealerAnalytics />} />
             <Route path="/dealer/offers" element={<DealerOffers />} />
             <Route path="/dealer/customers" element={<DealerCustomers />} />
+            <Route path="/dealer/service" element={<DealerServiceQueue />} />
+            <Route path="/dealer/calendar" element={<DealerCalendar />} />
+            <Route path="/dealer/quotes" element={<DealerQuotes />} />
+            <Route path="/dealer/technicians" element={<DealerTechnicians />} />
+            
+            {/* Maintenance Routes */}
+            <Route path="/maintenance" element={<MaintenanceDashboard />} />
+            
+            {/* Service Request Routes */}
+            <Route path="/service/requests" element={<ServiceRequestsList />} />
+            <Route path="/service/new" element={<ServiceRequestPage />} />
+            
+            {/* Loyalty Routes */}
+            <Route path="/loyalty" element={<LoyaltyDashboard />} />
+            
+            {/* Analytics Routes */}
+            <Route path="/analytics" element={<FleetAnalytics />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
