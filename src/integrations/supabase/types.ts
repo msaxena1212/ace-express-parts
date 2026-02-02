@@ -14,7 +14,189 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cart_items: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: string
+          quantity: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id: string
+          quantity?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: string
+          quantity?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      dealers: {
+        Row: {
+          contact_person: string | null
+          created_at: string
+          dealer_code: string | null
+          email: string | null
+          firm_name: string
+          gst_number: string | null
+          id: string
+          location: string | null
+          phone: string | null
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          contact_person?: string | null
+          created_at?: string
+          dealer_code?: string | null
+          email?: string | null
+          firm_name: string
+          gst_number?: string | null
+          id?: string
+          location?: string | null
+          phone?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          contact_person?: string | null
+          created_at?: string
+          dealer_code?: string | null
+          email?: string | null
+          firm_name?: string
+          gst_number?: string | null
+          id?: string
+          location?: string | null
+          phone?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          is_profile_complete: boolean | null
+          location: string | null
+          phone: string | null
+          pincode: string | null
+          role: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          is_profile_complete?: boolean | null
+          location?: string | null
+          phone?: string | null
+          pincode?: string | null
+          role?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          is_profile_complete?: boolean | null
+          location?: string | null
+          phone?: string | null
+          pincode?: string | null
+          role?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_equipment: {
+        Row: {
+          created_at: string
+          equipment_type: string | null
+          id: string
+          image_url: string | null
+          last_service_date: string | null
+          model: string
+          name: string
+          next_service_due: string | null
+          serial_number: string | null
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          equipment_type?: string | null
+          id?: string
+          image_url?: string | null
+          last_service_date?: string | null
+          model: string
+          name: string
+          next_service_due?: string | null
+          serial_number?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          equipment_type?: string | null
+          id?: string
+          image_url?: string | null
+          last_service_date?: string | null
+          model?: string
+          name?: string
+          next_service_due?: string | null
+          serial_number?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      wishlists: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

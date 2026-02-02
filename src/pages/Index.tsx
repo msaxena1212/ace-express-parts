@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { CategoryChips } from '@/components/CategoryChips';
 import { OfferBanner } from '@/components/OfferBanner';
@@ -10,6 +11,8 @@ import { BottomNav } from '@/components/BottomNav';
 import { SearchModal } from '@/components/SearchModal';
 import { categories, products, equipment, offers, Product } from '@/data/mockData';
 import { toast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { User, Session } from '@supabase/supabase-js';
 
 interface CartItem {
   productId: string;
@@ -17,10 +20,32 @@ interface CartItem {
 }
 
 const Index = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [activeTab, setActiveTab] = useState('/');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setIsLoading(false);
+    });
+
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      setIsLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleAddToCart = (productId: string) => {
     setCart(prev => {
@@ -64,6 +89,15 @@ const Index = () => {
   };
 
   const handleActionClick = (action: string) => {
+    if (!user) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to access this feature",
+      });
+      navigate('/auth');
+      return;
+    }
+    
     toast({
       title: action.replace('\n', ' '),
       description: "This feature is coming soon!",
@@ -79,6 +113,15 @@ const Index = () => {
   };
 
   const handleAddEquipment = () => {
+    if (!user) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to add equipment",
+      });
+      navigate('/auth');
+      return;
+    }
+    
     toast({
       title: "Add Equipment",
       description: "Register new equipment feature coming soon!",
@@ -97,6 +140,14 @@ const Index = () => {
   const fastTrackProducts = products.filter(p => p.isFastTrack);
 
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="w-8 h-8 border-3 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background pb-32">
