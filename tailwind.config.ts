@@ -64,10 +64,10 @@ export default {
           foreground: "hsl(var(--info-foreground))",
         },
         ace: {
-          primary: "hsl(var(--ace-primary))",
-          "primary-dark": "hsl(var(--ace-primary-dark))",
-          secondary: "hsl(var(--ace-secondary))",
-          accent: "hsl(var(--ace-accent))",
+          primary: "hsl(32 100% 50%)",
+          "primary-dark": "hsl(28 100% 42%)",
+          secondary: "hsl(0 0% 18%)",
+          accent: "hsl(32 100% 50%)",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
