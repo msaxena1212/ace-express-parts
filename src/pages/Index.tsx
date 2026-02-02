@@ -19,25 +19,28 @@ interface CartItem {
   quantity: number;
 }
 
-const Index = () => {
+interface IndexProps {
+  cart: CartItem[];
+  setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  onAddToCart: (productId: string) => void;
+}
+
+const Index = ({ cart, setCart, onAddToCart }: IndexProps) => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [activeTab, setActiveTab] = useState('/');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [cart, setCart] = useState<CartItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
       setIsLoading(false);
     });
 
-    // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
@@ -48,18 +51,7 @@ const Index = () => {
   }, []);
 
   const handleAddToCart = (productId: string) => {
-    setCart(prev => {
-      const existing = prev.find(item => item.productId === productId);
-      if (existing) {
-        return prev.map(item => 
-          item.productId === productId 
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prev, { productId, quantity: 1 }];
-    });
-    
+    onAddToCart(productId);
     const product = products.find(p => p.id === productId);
     toast({
       title: "Added to cart",
@@ -82,22 +74,27 @@ const Index = () => {
   };
 
   const handleViewCart = () => {
-    toast({
-      title: "Cart",
-      description: `You have ${cart.reduce((sum, item) => sum + item.quantity, 0)} items in your cart`,
-    });
+    navigate('/cart');
   };
 
   const handleActionClick = (action: string) => {
-    if (!user) {
-      toast({
-        title: "Sign in required",
-        description: "Please sign in to access this feature",
-      });
-      navigate('/auth');
+    if (action.includes('Machines') || action.includes('Equipment')) {
+      navigate('/machines');
       return;
     }
-    
+    if (action.includes('Orders') || action.includes('Track')) {
+      navigate('/orders');
+      return;
+    }
+    if (action.includes('Service')) {
+      if (!user) {
+        toast({ title: "Sign in required", description: "Please sign in to access this feature" });
+        navigate('/auth');
+        return;
+      }
+      toast({ title: "Service Request", description: "Coming soon!" });
+      return;
+    }
     toast({
       title: action.replace('\n', ' '),
       description: "This feature is coming soon!",
@@ -105,31 +102,25 @@ const Index = () => {
   };
 
   const handleEquipmentClick = (id: string) => {
-    const item = equipment.find(e => e.id === id);
-    toast({
-      title: item?.name || "Equipment",
-      description: `Model: ${item?.model}`,
-    });
+    navigate(`/machines/${id}`);
   };
 
   const handleAddEquipment = () => {
     if (!user) {
-      toast({
-        title: "Sign in required",
-        description: "Please sign in to add equipment",
-      });
+      toast({ title: "Sign in required", description: "Please sign in to add equipment" });
       navigate('/auth');
       return;
     }
-    
-    toast({
-      title: "Add Equipment",
-      description: "Register new equipment feature coming soon!",
-    });
+    navigate('/machines/add');
   };
 
   const handleSelectProduct = (product: Product) => {
     handleAddToCart(product.id);
+  };
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    navigate(tab);
   };
 
   const filteredProducts = selectedCategory 
@@ -211,7 +202,7 @@ const Index = () => {
       
       <BottomNav 
         activeTab={activeTab}
-        onTabChange={setActiveTab}
+        onTabChange={handleTabChange}
       />
       
       <SearchModal 

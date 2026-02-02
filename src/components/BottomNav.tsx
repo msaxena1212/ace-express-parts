@@ -8,8 +8,8 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { icon: Home, label: 'Home', path: '/' },
-  { icon: Grid3X3, label: 'Catalog', path: '/catalog' },
-  { icon: Wrench, label: 'Equipment', path: '/equipment' },
+  { icon: Grid3X3, label: 'Categories', path: '/categories' },
+  { icon: Wrench, label: 'Machines', path: '/machines' },
   { icon: Package, label: 'Orders', path: '/orders' },
   { icon: User, label: 'Account', path: '/account' },
 ];
