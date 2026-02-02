@@ -2,102 +2,101 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ACE Central Design System */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* ACE Central Design System - Dark Theme */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 @layer base {
   :root {
-    /* ACE Brand Colors */
-    --ace-primary: 16 100% 60%;
-    --ace-primary-dark: 16 68% 50%;
-    --ace-secondary: 207 100% 27%;
-    --ace-accent: 33 92% 54%;
+    /* ACE Brand Colors - Dark Theme Primary */
+    --ace-orange: 36 100% 54%;
+    --ace-orange-light: 36 100% 64%;
+    --ace-orange-dark: 30 100% 45%;
+    --ace-gold: 43 100% 50%;
     
-    /* Semantic Mappings */
+    /* Dark theme as default (matching ACE website) */
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
+    
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 98%;
+    
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
+    
+    --primary: 36 100% 54%;
+    --primary-foreground: 0 0% 4%;
+    
+    --secondary: 0 0% 14%;
+    --secondary-foreground: 0 0% 98%;
+    
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 60%;
+    
+    --accent: 36 100% 54%;
+    --accent-foreground: 0 0% 4%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 98%;
+    
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 4%;
+    
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 98%;
+    
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 36 100% 54%;
+    
+    --radius: 0.75rem;
+    
+    /* Shadows for dark theme */
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+    --shadow-lg: 0 12px 24px rgba(0,0,0,0.6);
+    --shadow-glow: 0 0 20px rgba(247, 147, 30, 0.3);
+    --shadow-focused: 0 0 0 3px rgba(247, 147, 30, 0.3);
+    
+    /* Sidebar */
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 36 100% 54%;
+    --sidebar-primary-foreground: 0 0% 4%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 0 0% 16%;
+    --sidebar-ring: 36 100% 54%;
+  }
+
+  /* Light mode override if needed */
+  .light {
     --background: 0 0% 98%;
-    --foreground: 0 0% 10%;
+    --foreground: 0 0% 8%;
     
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    --card-foreground: 0 0% 8%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
+    --popover-foreground: 0 0% 8%;
     
-    --primary: 16 100% 60%;
+    --primary: 36 100% 50%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 207 100% 27%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 12%;
     
     --muted: 0 0% 94%;
     --muted-foreground: 0 0% 40%;
     
-    --accent: 33 92% 54%;
+    --accent: 36 100% 50%;
     --accent-foreground: 0 0% 100%;
     
-    --destructive: 4 72% 51%;
-    --destructive-foreground: 0 0% 100%;
-    
-    --success: 145 63% 42%;
-    --success-foreground: 0 0% 100%;
-    
-    --warning: 36 100% 50%;
-    --warning-foreground: 0 0% 10%;
-    
-    --info: 204 70% 53%;
-    --info-foreground: 0 0% 100%;
-    
-    --border: 0 0% 87%;
-    --input: 0 0% 87%;
-    --ring: 16 100% 60%;
-    
-    --radius: 0.5rem;
-    
-    /* Shadows */
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
-    --shadow-lg: 0 12px 24px rgba(0,0,0,0.12);
-    --shadow-focused: 0 0 0 3px rgba(255,107,53,0.2);
-    
-    /* Sidebar - keeping defaults */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 0 0% 8%;
-    --foreground: 0 0% 98%;
-    
-    --card: 0 0% 12%;
-    --card-foreground: 0 0% 98%;
-    
-    --popover: 0 0% 12%;
-    --popover-foreground: 0 0% 98%;
-    
-    --primary: 16 100% 60%;
-    --primary-foreground: 0 0% 100%;
-    
-    --secondary: 207 100% 35%;
-    --secondary-foreground: 0 0% 100%;
-    
-    --muted: 0 0% 18%;
-    --muted-foreground: 0 0% 60%;
-    
-    --accent: 33 92% 54%;
-    --accent-foreground: 0 0% 100%;
-    
-    --destructive: 4 72% 51%;
-    --destructive-foreground: 0 0% 100%;
-    
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 16 100% 60%;
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 36 100% 50%;
   }
 }
 
@@ -117,34 +116,56 @@
 }
 
 @layer utilities {
-  /* Gradient backgrounds */
+  /* ACE gradient backgrounds */
   .bg-gradient-ace {
-    background: linear-gradient(135deg, hsl(var(--ace-primary)) 0%, hsl(var(--ace-primary-dark)) 100%);
+    background: linear-gradient(135deg, hsl(36 100% 54%) 0%, hsl(30 100% 45%) 100%);
   }
   
-  .bg-gradient-hero {
-    background: linear-gradient(135deg, hsl(var(--ace-primary)) 0%, hsl(var(--ace-accent)) 100%);
+  .bg-gradient-ace-glow {
+    background: linear-gradient(135deg, hsl(36 100% 64%) 0%, hsl(36 100% 54%) 50%, hsl(30 100% 45%) 100%);
   }
   
-  .bg-gradient-secondary {
-    background: linear-gradient(135deg, hsl(var(--ace-secondary)) 0%, hsl(207 100% 35%) 100%);
+  .bg-gradient-gold {
+    background: linear-gradient(135deg, hsl(43 100% 50%) 0%, hsl(36 100% 54%) 100%);
+  }
+  
+  .bg-gradient-dark {
+    background: linear-gradient(180deg, hsl(0 0% 8%) 0%, hsl(0 0% 4%) 100%);
+  }
+  
+  /* Glow effects */
+  .glow-orange {
+    box-shadow: 0 0 20px rgba(247, 147, 30, 0.4), 0 0 40px rgba(247, 147, 30, 0.2);
+  }
+  
+  .glow-orange-sm {
+    box-shadow: 0 0 10px rgba(247, 147, 30, 0.3);
+  }
+  
+  /* Text glow */
+  .text-glow {
+    text-shadow: 0 0 10px rgba(247, 147, 30, 0.5);
   }
   
   /* Status backgrounds */
   .bg-success-subtle {
-    background: hsla(var(--success), 0.1);
+    background: hsla(142, 76%, 36%, 0.15);
   }
   
   .bg-warning-subtle {
-    background: hsla(var(--warning), 0.1);
+    background: hsla(38, 92%, 50%, 0.15);
   }
   
   .bg-danger-subtle {
-    background: hsla(var(--destructive), 0.1);
+    background: hsla(0, 84%, 60%, 0.15);
   }
   
   .bg-info-subtle {
-    background: hsla(var(--info), 0.1);
+    background: hsla(199, 89%, 48%, 0.15);
+  }
+  
+  .bg-orange-subtle {
+    background: hsla(36, 100%, 54%, 0.15);
   }
   
   /* Shadow utilities */
@@ -158,6 +179,10 @@
   
   .shadow-ace-lg {
     box-shadow: var(--shadow-lg);
+  }
+  
+  .shadow-ace-glow {
+    box-shadow: var(--shadow-glow);
   }
   
   .shadow-ace-focused {
@@ -177,8 +202,8 @@
     animation: fadeIn 0.3s ease-out;
   }
   
-  .animate-pulse-soft {
-    animation: pulseSoft 2s ease-in-out infinite;
+  .animate-pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
   }
   
   /* Safe area for mobile */
@@ -188,6 +213,16 @@
   
   .safe-top {
     padding-top: env(safe-area-inset-top, 0px);
+  }
+  
+  /* Hide scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -207,26 +242,30 @@
   100% { opacity: 1; }
 }
 
-@keyframes pulseSoft {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+@keyframes pulseGlow {
+  0%, 100% { 
+    box-shadow: 0 0 10px rgba(247, 147, 30, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 20px rgba(247, 147, 30, 0.5), 0 0 30px rgba(247, 147, 30, 0.3);
+  }
 }
 
-/* Scrollbar styling */
+/* Scrollbar styling for dark theme */
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: hsl(0 0% 8%);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.3);
+  background: hsl(0 0% 25%);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.5);
+  background: hsl(36 100% 54%);
 }

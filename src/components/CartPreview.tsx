@@ -1,5 +1,4 @@
 import { ShoppingCart, ChevronRight, Zap } from 'lucide-react';
-import { Button } from './ui/button';
 import { Product } from '@/data/mockData';
 
 interface CartItem {
@@ -31,19 +30,19 @@ export function CartPreview({ cart, products, onViewCart }: CartPreviewProps) {
     <div className="fixed bottom-16 left-0 right-0 z-40 px-4 pb-2 safe-bottom animate-slide-up">
       <button 
         onClick={onViewCart}
-        className="w-full bg-gradient-ace text-primary-foreground rounded-lg p-3 shadow-ace-lg flex items-center justify-between active:scale-[0.99] transition-transform"
+        className="w-full bg-gradient-ace text-primary-foreground rounded-2xl p-4 shadow-ace-lg glow-orange flex items-center justify-between active:scale-[0.99] transition-transform"
       >
         <div className="flex items-center gap-3">
           <div className="relative">
             <ShoppingCart className="w-6 h-6" />
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-white text-primary text-[10px] font-bold rounded-full flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 w-4 h-4 bg-background text-primary text-[10px] font-bold rounded-full flex items-center justify-center">
               {totalItems}
             </span>
           </div>
           <div className="text-left">
-            <p className="text-body font-medium">{totalItems} item{totalItems > 1 ? 's' : ''}</p>
+            <p className="text-sm font-semibold">{totalItems} item{totalItems > 1 ? 's' : ''}</p>
             {hasFastTrack && (
-              <p className="text-body-sm opacity-90 flex items-center gap-1">
+              <p className="text-xs opacity-90 flex items-center gap-1">
                 <Zap className="w-3 h-3" />
                 Fast Track Available
               </p>
@@ -52,7 +51,7 @@ export function CartPreview({ cart, products, onViewCart }: CartPreviewProps) {
         </div>
         
         <div className="flex items-center gap-2">
-          <span className="text-h4 font-bold">₹{totalPrice.toLocaleString()}</span>
+          <span className="text-lg font-bold">₹{totalPrice.toLocaleString()}</span>
           <ChevronRight className="w-5 h-5" />
         </div>
       </button>

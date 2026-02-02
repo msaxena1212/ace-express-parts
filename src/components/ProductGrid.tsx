@@ -32,10 +32,10 @@ export function ProductGrid({
     <section className="px-4 py-4">
       <div className="flex items-baseline justify-between mb-3">
         <div>
-          <h2 className="text-h4 font-semibold">{title}</h2>
-          {subtitle && <p className="text-body-sm text-muted-foreground">{subtitle}</p>}
+          <h2 className="text-base font-semibold text-foreground">{title}</h2>
+          {subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}
         </div>
-        <button className="text-body-sm text-primary font-medium">View All</button>
+        <button className="text-xs text-primary font-medium">View All</button>
       </div>
       
       <div className="grid grid-cols-2 gap-3">
