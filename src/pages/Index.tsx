@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
+import { HeroSection } from '@/components/HeroSection';
 import { CategoryChips } from '@/components/CategoryChips';
 import { OfferBanner } from '@/components/OfferBanner';
 import { QuickActions } from '@/components/QuickActions';
@@ -115,6 +116,8 @@ const Index = ({ cart, setCart, onAddToCart }: IndexProps) => {
       />
       
       <main>
+        <HeroSection onExploreClick={() => navigate('/categories')} />
+        
         <OfferBanner offers={offers} />
         
         <CategoryChips 
