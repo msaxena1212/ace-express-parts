@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      addresses: {
+        Row: {
+          area: string | null
+          city: string
+          created_at: string
+          full_address: string
+          id: string
+          is_default: boolean | null
+          label: string
+          phone: string
+          pincode: string
+          recipient_name: string | null
+          state: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          area?: string | null
+          city: string
+          created_at?: string
+          full_address: string
+          id?: string
+          is_default?: boolean | null
+          label?: string
+          phone: string
+          pincode: string
+          recipient_name?: string | null
+          state: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          area?: string | null
+          city?: string
+          created_at?: string
+          full_address?: string
+          id?: string
+          is_default?: boolean | null
+          label?: string
+          phone?: string
+          pincode?: string
+          recipient_name?: string | null
+          state?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       cart_items: {
         Row: {
           created_at: string
@@ -86,6 +134,128 @@ export type Database = {
         }
         Relationships: []
       }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          item_total: number
+          order_id: string
+          part_number: string | null
+          product_id: string
+          product_name: string
+          quantity: number
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_total: number
+          order_id: string
+          part_number?: string | null
+          product_id: string
+          product_name: string
+          quantity?: number
+          unit_price: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_total?: number
+          order_id?: string
+          part_number?: string | null
+          product_id?: string
+          product_name?: string
+          quantity?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          carrier: string | null
+          created_at: string
+          delivered_date: string | null
+          delivery_address_id: string | null
+          delivery_fee: number | null
+          delivery_type: string | null
+          discount_amount: number | null
+          estimated_delivery: string | null
+          gst_amount: number | null
+          id: string
+          notes: string | null
+          order_number: string
+          payment_method: string | null
+          payment_status: string | null
+          promo_code: string | null
+          shipped_date: string | null
+          status: string
+          subtotal: number
+          total_amount: number
+          tracking_number: string | null
+          transaction_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          carrier?: string | null
+          created_at?: string
+          delivered_date?: string | null
+          delivery_address_id?: string | null
+          delivery_fee?: number | null
+          delivery_type?: string | null
+          discount_amount?: number | null
+          estimated_delivery?: string | null
+          gst_amount?: number | null
+          id?: string
+          notes?: string | null
+          order_number: string
+          payment_method?: string | null
+          payment_status?: string | null
+          promo_code?: string | null
+          shipped_date?: string | null
+          status?: string
+          subtotal?: number
+          total_amount?: number
+          tracking_number?: string | null
+          transaction_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          carrier?: string | null
+          created_at?: string
+          delivered_date?: string | null
+          delivery_address_id?: string | null
+          delivery_fee?: number | null
+          delivery_type?: string | null
+          discount_amount?: number | null
+          estimated_delivery?: string | null
+          gst_amount?: number | null
+          id?: string
+          notes?: string | null
+          order_number?: string
+          payment_method?: string | null
+          payment_status?: string | null
+          promo_code?: string | null
+          shipped_date?: string | null
+          status?: string
+          subtotal?: number
+          total_amount?: number
+          tracking_number?: string | null
+          transaction_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -130,6 +300,65 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      service_requests: {
+        Row: {
+          actual_cost: number | null
+          assigned_dealer_id: string | null
+          created_at: string
+          description: string | null
+          equipment_id: string | null
+          estimated_cost: number | null
+          id: string
+          preferred_date: string | null
+          preferred_time_slot: string | null
+          priority: string | null
+          service_type: string
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          actual_cost?: number | null
+          assigned_dealer_id?: string | null
+          created_at?: string
+          description?: string | null
+          equipment_id?: string | null
+          estimated_cost?: number | null
+          id?: string
+          preferred_date?: string | null
+          preferred_time_slot?: string | null
+          priority?: string | null
+          service_type?: string
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          actual_cost?: number | null
+          assigned_dealer_id?: string | null
+          created_at?: string
+          description?: string | null
+          equipment_id?: string | null
+          estimated_cost?: number | null
+          id?: string
+          preferred_date?: string | null
+          preferred_time_slot?: string | null
+          priority?: string | null
+          service_type?: string
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_requests_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "user_equipment"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_equipment: {
         Row: {
