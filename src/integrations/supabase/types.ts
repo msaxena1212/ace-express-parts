@@ -89,6 +89,231 @@ export type Database = {
         }
         Relationships: []
       }
+      dealer_customers: {
+        Row: {
+          created_at: string
+          customer_id: string
+          customer_name: string | null
+          customer_phone: string | null
+          dealer_id: string
+          id: string
+          last_order_date: string | null
+          lifetime_value: number | null
+          status: string | null
+          total_orders: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          customer_name?: string | null
+          customer_phone?: string | null
+          dealer_id: string
+          id?: string
+          last_order_date?: string | null
+          lifetime_value?: number | null
+          status?: string | null
+          total_orders?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          customer_name?: string | null
+          customer_phone?: string | null
+          dealer_id?: string
+          id?: string
+          last_order_date?: string | null
+          lifetime_value?: number | null
+          status?: string | null
+          total_orders?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dealer_customers_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dealer_inventory: {
+        Row: {
+          created_at: string
+          dealer_id: string
+          id: string
+          last_restocked: string | null
+          min_threshold: number | null
+          product_id: string
+          reorder_quantity: number | null
+          stock_quantity: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          dealer_id: string
+          id?: string
+          last_restocked?: string | null
+          min_threshold?: number | null
+          product_id: string
+          reorder_quantity?: number | null
+          stock_quantity?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          dealer_id?: string
+          id?: string
+          last_restocked?: string | null
+          min_threshold?: number | null
+          product_id?: string
+          reorder_quantity?: number | null
+          stock_quantity?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dealer_inventory_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dealer_inventory_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dealer_metrics: {
+        Row: {
+          average_order_value: number | null
+          created_at: string
+          customer_satisfaction_rating: number | null
+          dealer_id: string
+          id: string
+          new_customers: number | null
+          on_time_delivery_rate: number | null
+          orders_cancelled: number | null
+          period_end: string
+          period_start: string
+          repeat_customers: number | null
+          total_orders: number | null
+          total_revenue: number | null
+        }
+        Insert: {
+          average_order_value?: number | null
+          created_at?: string
+          customer_satisfaction_rating?: number | null
+          dealer_id: string
+          id?: string
+          new_customers?: number | null
+          on_time_delivery_rate?: number | null
+          orders_cancelled?: number | null
+          period_end: string
+          period_start: string
+          repeat_customers?: number | null
+          total_orders?: number | null
+          total_revenue?: number | null
+        }
+        Update: {
+          average_order_value?: number | null
+          created_at?: string
+          customer_satisfaction_rating?: number | null
+          dealer_id?: string
+          id?: string
+          new_customers?: number | null
+          on_time_delivery_rate?: number | null
+          orders_cancelled?: number | null
+          period_end?: string
+          period_start?: string
+          repeat_customers?: number | null
+          total_orders?: number | null
+          total_revenue?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dealer_metrics_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      dealer_offers: {
+        Row: {
+          applicable_categories: string[] | null
+          applicable_products: string[] | null
+          created_at: string
+          current_redemptions: number | null
+          dealer_id: string
+          description: string | null
+          discount_type: string
+          discount_value: number
+          end_date: string
+          id: string
+          is_active: boolean | null
+          max_redemptions: number | null
+          min_order_value: number | null
+          name: string
+          start_date: string
+          terms_conditions: string | null
+          updated_at: string
+        }
+        Insert: {
+          applicable_categories?: string[] | null
+          applicable_products?: string[] | null
+          created_at?: string
+          current_redemptions?: number | null
+          dealer_id: string
+          description?: string | null
+          discount_type?: string
+          discount_value: number
+          end_date: string
+          id?: string
+          is_active?: boolean | null
+          max_redemptions?: number | null
+          min_order_value?: number | null
+          name: string
+          start_date: string
+          terms_conditions?: string | null
+          updated_at?: string
+        }
+        Update: {
+          applicable_categories?: string[] | null
+          applicable_products?: string[] | null
+          created_at?: string
+          current_redemptions?: number | null
+          dealer_id?: string
+          description?: string | null
+          discount_type?: string
+          discount_value?: number
+          end_date?: string
+          id?: string
+          is_active?: boolean | null
+          max_redemptions?: number | null
+          min_order_value?: number | null
+          name?: string
+          start_date?: string
+          terms_conditions?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dealer_offers_dealer_id_fkey"
+            columns: ["dealer_id"]
+            isOneToOne: false
+            referencedRelation: "dealers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       dealers: {
         Row: {
           contact_person: string | null
@@ -256,6 +481,179 @@ export type Database = {
         }
         Relationships: []
       }
+      product_reviews: {
+        Row: {
+          comment: string | null
+          created_at: string
+          helpful_count: number | null
+          id: string
+          product_id: string
+          rating: number
+          updated_at: string
+          user_id: string
+          user_name: string
+          verified_purchase: boolean | null
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          helpful_count?: number | null
+          id?: string
+          product_id: string
+          rating: number
+          updated_at?: string
+          user_id: string
+          user_name: string
+          verified_purchase?: boolean | null
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          helpful_count?: number | null
+          id?: string
+          product_id?: string
+          rating?: number
+          updated_at?: string
+          user_id?: string
+          user_name?: string
+          verified_purchase?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "product_reviews_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          average_rating: number | null
+          badges: string[] | null
+          brand: string | null
+          category: string
+          compatibility: Json | null
+          created_at: string
+          description: string | null
+          discount_percentage: number | null
+          discount_type: string | null
+          fast_track_available: boolean | null
+          fast_track_fee: number | null
+          fast_track_hours: string | null
+          free_shipping_threshold: number | null
+          id: string
+          images: Json | null
+          is_active: boolean | null
+          keywords: string[] | null
+          low_stock_threshold: number | null
+          mrp: number
+          name: string
+          offer_end_date: string | null
+          part_number: string
+          rating_distribution: Json | null
+          reorder_quantity: number | null
+          return_policy: string | null
+          seller_id: string | null
+          seller_name: string | null
+          seller_verified: boolean | null
+          selling_price: number
+          sku: string | null
+          slug: string | null
+          specifications: Json | null
+          standard_delivery_days: string | null
+          stock_quantity: number | null
+          stock_status: string | null
+          subcategory: string | null
+          total_reviews: number | null
+          updated_at: string
+          warranty_info: string | null
+        }
+        Insert: {
+          average_rating?: number | null
+          badges?: string[] | null
+          brand?: string | null
+          category: string
+          compatibility?: Json | null
+          created_at?: string
+          description?: string | null
+          discount_percentage?: number | null
+          discount_type?: string | null
+          fast_track_available?: boolean | null
+          fast_track_fee?: number | null
+          fast_track_hours?: string | null
+          free_shipping_threshold?: number | null
+          id?: string
+          images?: Json | null
+          is_active?: boolean | null
+          keywords?: string[] | null
+          low_stock_threshold?: number | null
+          mrp: number
+          name: string
+          offer_end_date?: string | null
+          part_number: string
+          rating_distribution?: Json | null
+          reorder_quantity?: number | null
+          return_policy?: string | null
+          seller_id?: string | null
+          seller_name?: string | null
+          seller_verified?: boolean | null
+          selling_price: number
+          sku?: string | null
+          slug?: string | null
+          specifications?: Json | null
+          standard_delivery_days?: string | null
+          stock_quantity?: number | null
+          stock_status?: string | null
+          subcategory?: string | null
+          total_reviews?: number | null
+          updated_at?: string
+          warranty_info?: string | null
+        }
+        Update: {
+          average_rating?: number | null
+          badges?: string[] | null
+          brand?: string | null
+          category?: string
+          compatibility?: Json | null
+          created_at?: string
+          description?: string | null
+          discount_percentage?: number | null
+          discount_type?: string | null
+          fast_track_available?: boolean | null
+          fast_track_fee?: number | null
+          fast_track_hours?: string | null
+          free_shipping_threshold?: number | null
+          id?: string
+          images?: Json | null
+          is_active?: boolean | null
+          keywords?: string[] | null
+          low_stock_threshold?: number | null
+          mrp?: number
+          name?: string
+          offer_end_date?: string | null
+          part_number?: string
+          rating_distribution?: Json | null
+          reorder_quantity?: number | null
+          return_policy?: string | null
+          seller_id?: string | null
+          seller_name?: string | null
+          seller_verified?: boolean | null
+          selling_price?: number
+          sku?: string | null
+          slug?: string | null
+          specifications?: Json | null
+          standard_delivery_days?: string | null
+          stock_quantity?: number | null
+          stock_status?: string | null
+          subcategory?: string | null
+          total_reviews?: number | null
+          updated_at?: string
+          warranty_info?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -405,6 +803,27 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
       wishlists: {
         Row: {
           created_at: string
@@ -431,10 +850,16 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "dealer" | "customer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -561,6 +986,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "dealer", "customer"],
+    },
   },
 } as const

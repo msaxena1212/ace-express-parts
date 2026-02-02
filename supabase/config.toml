@@ -1,1 +1,13 @@
 project_id = "ebepdqbwgbixaxyoesjk"
+
+[functions.products]
+verify_jwt = false
+
+[functions.orders]
+verify_jwt = false
+
+[functions.machines]
+verify_jwt = false
+
+[functions.cart]
+verify_jwt = false
