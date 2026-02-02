@@ -40,6 +40,8 @@ import DealerQuotes from "./pages/dealer/DealerQuotes";
 import DealerTechnicians from "./pages/dealer/DealerTechnicians";
 // Customer Modules
 import MaintenanceDashboard from "./pages/maintenance/MaintenanceDashboard";
+import MaintenanceTaskDetail from "./pages/maintenance/MaintenanceTaskDetail";
+import ScheduleMaintenance from "./pages/maintenance/ScheduleMaintenance";
 import ServiceRequestPage from "./pages/service/ServiceRequestPage";
 import ServiceRequestsList from "./pages/service/ServiceRequestsList";
 import LoyaltyDashboard from "./pages/loyalty/LoyaltyDashboard";
@@ -127,6 +129,8 @@ const App = () => {
             
             {/* Maintenance Routes */}
             <Route path="/maintenance" element={<MaintenanceDashboard />} />
+            <Route path="/maintenance/:id" element={<MaintenanceTaskDetail />} />
+            <Route path="/maintenance/:id/schedule" element={<ScheduleMaintenance />} />
             
             {/* Service Request Routes */}
             <Route path="/service/requests" element={<ServiceRequestsList />} />
