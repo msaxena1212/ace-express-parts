@@ -1,73 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, User, Package, Heart, MapPin, CreditCard, Gift, HelpCircle, MessageCircle, FileText, Bell, Globe, Moon, Shield, Trash2, LogOut, ChevronRight, Settings } from 'lucide-react';
+import { ArrowLeft, Package, Heart, MapPin, CreditCard, Gift, HelpCircle, MessageCircle, FileText, Bell, Globe, Moon, Shield, ChevronRight, Settings, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from '@/hooks/use-toast';
 import { BottomNav } from '@/components/BottomNav';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-
-interface Profile {
-  full_name: string | null;
-  email: string | null;
-  phone: string | null;
-  avatar_url: string | null;
-  location: string | null;
-}
+import { DEMO_USER } from '@/hooks/useDemoUser';
 
 export default function AccountPage() {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState<Profile | null>(null);
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
 
-  useEffect(() => {
-    fetchProfile();
-  }, []);
-
-  const fetchProfile = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      navigate('/auth');
-      return;
-    }
-
-    const { data } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('user_id', user.id)
-      .single();
-
-    if (data) setProfile(data);
-  };
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    toast({ title: "Logged out successfully" });
-    navigate('/auth');
-  };
-
   const menuItems = [
-    { icon: Package, label: 'My Machines', path: '/machines', badge: null },
+    { icon: Wrench, label: 'My Machines', path: '/machines', badge: null },
     { icon: Package, label: 'My Orders', path: '/orders', badge: null },
     { icon: Heart, label: 'Wishlist', path: '/wishlist', badge: null },
     { icon: MapPin, label: 'Saved Addresses', path: '/addresses', badge: null },
     { icon: CreditCard, label: 'Payment Methods', path: '/payment-methods', badge: null },
-    { icon: Gift, label: 'Referral Program', path: '/referrals', badge: 'NEW' },
+    { icon: Gift, label: 'Referral Program', path: '/loyalty', badge: 'NEW' },
   ];
 
   const supportItems = [
@@ -114,17 +66,15 @@ export default function AccountPage() {
         <Card className="p-4">
           <div className="flex items-center gap-4">
             <Avatar className="w-16 h-16">
-              <AvatarImage src={profile?.avatar_url || ''} />
+              <AvatarImage src="" />
               <AvatarFallback className="bg-primary text-primary-foreground text-xl">
-                {profile?.full_name?.charAt(0) || 'U'}
+                {DEMO_USER.name.charAt(0)}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1">
-              <h2 className="font-semibold text-lg">{profile?.full_name || 'User'}</h2>
-              <p className="text-sm text-muted-foreground">{profile?.phone || 'No phone'}</p>
-              {profile?.email && (
-                <p className="text-sm text-muted-foreground">{profile.email}</p>
-              )}
+              <h2 className="font-semibold text-lg">{DEMO_USER.name}</h2>
+              <p className="text-sm text-muted-foreground">{DEMO_USER.phone}</p>
+              <p className="text-sm text-muted-foreground">{DEMO_USER.email}</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => navigate('/profile/edit')}>
               Edit
@@ -204,45 +154,8 @@ export default function AccountPage() {
           </Card>
         </div>
 
-        {/* Danger Zone */}
-        <Card className="divide-y">
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <div className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/50 transition-colors text-destructive">
-                <div className="flex items-center gap-3">
-                  <Trash2 className="w-5 h-5" />
-                  <span>Delete Account</span>
-                </div>
-                <ChevronRight className="w-4 h-4" />
-              </div>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Delete Account?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. All your data will be permanently deleted.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction className="bg-destructive">Delete</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </Card>
-
-        {/* Logout */}
-        <Button 
-          variant="outline" 
-          className="w-full text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground"
-          onClick={handleLogout}
-        >
-          <LogOut className="w-4 h-4 mr-2" />
-          Logout
-        </Button>
-
         <p className="text-center text-xs text-muted-foreground pt-4">
-          ACE Parts v1.0.0
+          ACE Genuine Parts v1.0.0
         </p>
       </div>
 
