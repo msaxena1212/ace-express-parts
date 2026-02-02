@@ -6,6 +6,7 @@ import { OfferBanner } from '@/components/OfferBanner';
 import { QuickActions } from '@/components/QuickActions';
 import { ProductGrid } from '@/components/ProductGrid';
 import { EquipmentSection } from '@/components/EquipmentSection';
+import { QuickAccessCards } from '@/components/QuickAccessCards';
 import { CartPreview } from '@/components/CartPreview';
 import { BottomNav } from '@/components/BottomNav';
 import { SearchModal } from '@/components/SearchModal';
@@ -156,6 +157,8 @@ const Index = ({ cart, setCart, onAddToCart }: IndexProps) => {
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
         />
+        
+        <QuickAccessCards />
         
         <QuickActions onActionClick={handleActionClick} />
         
