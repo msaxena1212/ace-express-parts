@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Package, Heart, MapPin, CreditCard, Gift, HelpCircle, MessageCircle, FileText, Bell, Globe, Moon, Shield, ChevronRight, Settings, Wrench } from 'lucide-react';
+import { 
+  ArrowLeft, Package, Heart, MapPin, CreditCard, Gift, HelpCircle, 
+  MessageCircle, FileText, Bell, Globe, Moon, Shield, ChevronRight, 
+  Settings, Wrench, Wallet, Award, Share2, Info, Lock, LogOut
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
@@ -13,149 +17,158 @@ export default function AccountPage() {
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
 
-  const menuItems = [
-    { icon: Wrench, label: 'My Machines', path: '/machines', badge: null },
-    { icon: Package, label: 'My Orders', path: '/orders', badge: null },
-    { icon: Heart, label: 'Wishlist', path: '/wishlist', badge: null },
-    { icon: MapPin, label: 'Saved Addresses', path: '/addresses', badge: null },
-    { icon: CreditCard, label: 'Payment Methods', path: '/payment-methods', badge: null },
-    { icon: Gift, label: 'Referral Program', path: '/loyalty', badge: 'NEW' },
+  // Quick action cards like Blinkit
+  const quickActions = [
+    { icon: Wallet, label: 'ACE Wallet', path: '/wallet' },
+    { icon: MessageCircle, label: 'Support', path: '/support' },
+    { icon: CreditCard, label: 'Payments', path: '/payment-methods' },
   ];
 
-  const supportItems = [
-    { icon: HelpCircle, label: 'FAQs', path: '/faqs' },
-    { icon: MessageCircle, label: 'Contact Us', path: '/contact' },
-    { icon: FileText, label: 'Raise a Ticket', path: '/support-ticket' },
-    { icon: FileText, label: 'Return Policy', path: '/return-policy' },
-  ];
-
-  const settingsItems: Array<{
-    icon: typeof Bell;
-    label: string;
-    toggle?: boolean;
-    value?: boolean | string;
-    onChange?: (v: boolean) => void;
-    path?: string;
-  }> = [
-    { icon: Bell, label: 'Notifications', toggle: true, value: notifications, onChange: setNotifications },
-    { icon: Globe, label: 'Language', value: 'English' },
-    { icon: Moon, label: 'Dark Mode', toggle: true, value: darkMode, onChange: setDarkMode },
-    { icon: Shield, label: 'Privacy & Security', path: '/privacy' },
-    { icon: FileText, label: 'Terms & Conditions', path: '/terms' },
-    { icon: FileText, label: 'Privacy Policy', path: '/privacy-policy' },
+  // Grouped menu items like Blinkit profile
+  const menuGroups = [
+    {
+      title: 'YOUR INFORMATION',
+      items: [
+        { icon: Package, label: 'Your orders', path: '/orders', badge: null },
+        { icon: Heart, label: 'Your wishlist', path: '/wishlist', badge: null },
+        { icon: Wrench, label: 'Your machines', path: '/machines', badge: null },
+        { icon: MapPin, label: 'Address book', path: '/addresses', badge: null },
+      ]
+    },
+    {
+      title: 'REWARDS & REFERRALS',
+      items: [
+        { icon: Award, label: 'Your collected rewards', path: '/loyalty', badge: 'NEW', hasDot: true },
+        { icon: Gift, label: 'Claim Gift Card', path: '/gift-card', badge: null, hasDot: true },
+      ]
+    },
+    {
+      title: 'OTHER INFORMATION',
+      items: [
+        { icon: Share2, label: 'Share the app', path: '/share', badge: null },
+        { icon: Info, label: 'About us', path: '/about', badge: null },
+        { icon: Lock, label: 'Account privacy', path: '/privacy', badge: null },
+        { icon: Bell, label: 'Notification preferences', path: '/notifications', badge: null },
+      ]
+    }
   ];
 
   return (
     <div className="min-h-screen bg-background pb-20">
+      {/* Header */}
       <header className="sticky top-0 z-40 bg-background border-b px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+            <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="rounded-full">
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <h1 className="text-lg font-semibold">Account</h1>
+            <h1 className="text-lg font-semibold">Profile</h1>
           </div>
-          <Button variant="ghost" size="icon">
-            <Settings className="w-5 h-5" />
-          </Button>
         </div>
       </header>
 
       <div className="p-4 space-y-4">
-        {/* Profile Section */}
-        <Card className="p-4">
-          <div className="flex items-center gap-4">
-            <Avatar className="w-16 h-16">
-              <AvatarImage src="" />
-              <AvatarFallback className="bg-primary text-primary-foreground text-xl">
-                {DEMO_USER.name.charAt(0)}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex-1">
-              <h2 className="font-semibold text-lg">{DEMO_USER.name}</h2>
-              <p className="text-sm text-muted-foreground">{DEMO_USER.phone}</p>
-              <p className="text-sm text-muted-foreground">{DEMO_USER.email}</p>
-            </div>
-            <Button variant="outline" size="sm" onClick={() => navigate('/profile/edit')}>
-              Edit
-            </Button>
+        {/* Profile Header - Blinkit Style */}
+        <div className="space-y-1">
+          <h2 className="text-2xl font-bold text-foreground">Your account</h2>
+          <p className="text-sm text-muted-foreground flex items-center gap-2">
+            📞 {DEMO_USER.phone}
+          </p>
+        </div>
+
+        {/* Birthday Banner - Like Blinkit */}
+        <Card className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200 flex items-center justify-between">
+          <div>
+            <p className="font-medium text-foreground">Add your birthday</p>
+            <p className="text-sm text-primary font-medium flex items-center gap-1">
+              Enter details <ChevronRight className="w-3 h-3" />
+            </p>
+          </div>
+          <div className="text-4xl">🎂</div>
+        </Card>
+
+        {/* Quick Actions - Like Blinkit */}
+        <div className="grid grid-cols-3 gap-3">
+          {quickActions.map((action, i) => (
+            <Card 
+              key={i}
+              onClick={() => navigate(action.path)}
+              className="p-4 flex flex-col items-center gap-2 cursor-pointer hover:shadow-md transition-all active:scale-95"
+            >
+              <div className="w-10 h-10 rounded-xl bg-muted flex items-center justify-center">
+                <action.icon className="w-5 h-5 text-foreground" />
+              </div>
+              <span className="text-xs font-medium text-center">{action.label}</span>
+            </Card>
+          ))}
+        </div>
+
+        {/* Appearance Toggle - Like Blinkit */}
+        <Card className="p-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Moon className="w-5 h-5 text-muted-foreground" />
+            <span className="font-medium">Appearance</span>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted px-3 py-1.5 rounded-full">
+            Automatic
+            <ChevronRight className="w-4 h-4" />
           </div>
         </Card>
 
-        {/* Account Menu */}
-        <Card className="divide-y">
-          {menuItems.map((item, i) => (
-            <div 
-              key={i}
-              className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/50 transition-colors"
-              onClick={() => navigate(item.path)}
-            >
-              <div className="flex items-center gap-3">
-                <item.icon className="w-5 h-5 text-muted-foreground" />
-                <span>{item.label}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                {item.badge && (
-                  <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded">{item.badge}</span>
-                )}
-                <ChevronRight className="w-4 h-4 text-muted-foreground" />
-              </div>
-            </div>
-          ))}
+        {/* Menu Groups - Blinkit Style */}
+        {menuGroups.map((group, groupIndex) => (
+          <div key={groupIndex} className="animate-fade-in" style={{ animationDelay: `${groupIndex * 100}ms` }}>
+            <h3 className="text-xs font-semibold text-muted-foreground mb-2 px-1 tracking-wide">
+              {group.title}
+            </h3>
+            <Card className="divide-y divide-border/50">
+              {group.items.map((item, i) => (
+                <div 
+                  key={i}
+                  className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/50 transition-colors active:bg-muted"
+                  onClick={() => navigate(item.path)}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="relative">
+                      <div className="w-9 h-9 rounded-full bg-muted/80 flex items-center justify-center">
+                        <item.icon className="w-4 h-4 text-muted-foreground" />
+                      </div>
+                      {item.hasDot && (
+                        <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full" />
+                      )}
+                    </div>
+                    <span className="text-sm font-medium">{item.label}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {item.badge && (
+                      <span className="text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded-full font-semibold">
+                        {item.badge}
+                      </span>
+                    )}
+                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                  </div>
+                </div>
+              ))}
+            </Card>
+          </div>
+        ))}
+
+        {/* Logout Button */}
+        <Card 
+          className="p-4 flex items-center gap-3 cursor-pointer hover:bg-muted/50 transition-colors"
+          onClick={() => {/* Demo mode - no logout */}}
+        >
+          <div className="w-9 h-9 rounded-full bg-muted/80 flex items-center justify-center">
+            <LogOut className="w-4 h-4 text-muted-foreground" />
+          </div>
+          <span className="text-sm font-medium">Log out</span>
         </Card>
 
-        {/* Support & Help */}
-        <div>
-          <h3 className="text-sm font-medium text-muted-foreground mb-2 px-1">Support & Help</h3>
-          <Card className="divide-y">
-            {supportItems.map((item, i) => (
-              <div 
-                key={i}
-                className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/50 transition-colors"
-                onClick={() => navigate(item.path)}
-              >
-                <div className="flex items-center gap-3">
-                  <item.icon className="w-5 h-5 text-muted-foreground" />
-                  <span>{item.label}</span>
-                </div>
-                <ChevronRight className="w-4 h-4 text-muted-foreground" />
-              </div>
-            ))}
-          </Card>
-        </div>
-
-        {/* Settings */}
-        <div>
-          <h3 className="text-sm font-medium text-muted-foreground mb-2 px-1">Settings</h3>
-          <Card className="divide-y">
-            {settingsItems.map((item, i) => (
-              <div 
-                key={i}
-                className="flex items-center justify-between p-4 cursor-pointer hover:bg-muted/50 transition-colors"
-                onClick={() => !item.toggle && item.path && navigate(item.path)}
-              >
-                <div className="flex items-center gap-3">
-                  <item.icon className="w-5 h-5 text-muted-foreground" />
-                  <span>{item.label}</span>
-                </div>
-                {item.toggle && typeof item.value === 'boolean' ? (
-                  <Switch 
-                    checked={item.value} 
-                    onCheckedChange={item.onChange}
-                    onClick={(e) => e.stopPropagation()}
-                  />
-                ) : typeof item.value === 'string' ? (
-                  <span className="text-sm text-muted-foreground">{item.value}</span>
-                ) : (
-                  <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                )}
-              </div>
-            ))}
-          </Card>
-        </div>
-
-        <p className="text-center text-xs text-muted-foreground pt-4">
-          ACE Genuine Parts v1.0.0
+        {/* App Version */}
+        <p className="text-center text-xs text-muted-foreground pt-4 pb-2">
+          <span className="text-lg font-bold text-primary">ACE</span>
+          <br />
+          v1.0.0
         </p>
       </div>
 
