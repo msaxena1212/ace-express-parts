@@ -1,8 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, SlidersHorizontal, ChevronDown, Heart, ShoppingCart, Zap } from 'lucide-react';
+import { ArrowLeft, SlidersHorizontal, Heart, Zap, Star, Plus, Minus, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { categories, products, Product } from '@/data/mockData';
 import { toast } from '@/hooks/use-toast';
@@ -24,17 +23,25 @@ import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
-interface CategoryProductsPageProps {
-  onAddToCart: (productId: string) => void;
+interface CartItem {
+  productId: string;
+  quantity: number;
 }
 
-export default function CategoryProductsPage({ onAddToCart }: CategoryProductsPageProps) {
+interface CategoryProductsPageProps {
+  onAddToCart: (productId: string) => void;
+  cart?: CartItem[];
+  onRemoveFromCart?: (productId: string) => void;
+}
+
+export default function CategoryProductsPage({ onAddToCart, cart = [], onRemoveFromCart }: CategoryProductsPageProps) {
   const { categoryId } = useParams();
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState('relevant');
   const [priceRange, setPriceRange] = useState([0, 50000]);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [fastTrackOnly, setFastTrackOnly] = useState(false);
+  const [wishlist, setWishlist] = useState<Set<string>>(new Set());
 
   const category = categories.find(c => c.id === categoryId);
   
@@ -52,24 +59,42 @@ export default function CategoryProductsPage({ onAddToCart }: CategoryProductsPa
     filtered = filtered.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
 
     // Sort
+    const sortedFiltered = [...filtered];
     switch (sortBy) {
       case 'price-low':
-        filtered.sort((a, b) => a.price - b.price);
+        sortedFiltered.sort((a, b) => a.price - b.price);
         break;
       case 'price-high':
-        filtered.sort((a, b) => b.price - a.price);
+        sortedFiltered.sort((a, b) => b.price - a.price);
         break;
       case 'popular':
-        filtered.sort((a, b) => (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0));
+        sortedFiltered.sort((a, b) => (b.isPopular ? 1 : 0) - (a.isPopular ? 1 : 0));
         break;
     }
 
-    return filtered;
+    return sortedFiltered;
   }, [categoryId, sortBy, priceRange, inStockOnly, fastTrackOnly]);
 
   const subcategories = ['All', 'Engine Oil', 'Hydraulic Oil', 'Transmission Fluid', 'Brake Fluid'];
 
-  const handleAddToCart = (product: Product) => {
+  const getCartQuantity = (productId: string) => {
+    return cart.find(item => item.productId === productId)?.quantity || 0;
+  };
+
+  const toggleWishlist = (productId: string) => {
+    setWishlist(prev => {
+      const next = new Set(prev);
+      if (next.has(productId)) {
+        next.delete(productId);
+      } else {
+        next.add(productId);
+      }
+      return next;
+    });
+  };
+
+  const handleAddToCart = (e: React.MouseEvent, product: Product) => {
+    e.stopPropagation();
     onAddToCart(product.id);
     toast({
       title: "Added to cart",
@@ -77,12 +102,18 @@ export default function CategoryProductsPage({ onAddToCart }: CategoryProductsPa
     });
   };
 
+  const handleRemoveFromCart = (e: React.MouseEvent, productId: string) => {
+    e.stopPropagation();
+    onRemoveFromCart?.(productId);
+  };
+
   return (
     <div className="min-h-screen bg-background pb-8">
+      {/* Header */}
       <header className="sticky top-0 z-40 bg-background border-b px-4 py-3">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-3">
-            <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
+            <Button variant="ghost" size="icon" onClick={() => navigate(-1)} className="rounded-full">
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div>
@@ -93,18 +124,18 @@ export default function CategoryProductsPage({ onAddToCart }: CategoryProductsPa
           
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="rounded-full">
                 <SlidersHorizontal className="w-4 h-4 mr-1" />
                 Filter
               </Button>
             </SheetTrigger>
-            <SheetContent side="bottom" className="h-[80vh]">
+            <SheetContent side="bottom" className="h-[80vh] rounded-t-3xl">
               <SheetHeader>
                 <SheetTitle>Filters</SheetTitle>
               </SheetHeader>
               <div className="space-y-6 pt-6">
                 <div>
-                  <Label className="mb-3 block">Price Range</Label>
+                  <Label className="mb-3 block font-medium">Price Range</Label>
                   <Slider
                     value={priceRange}
                     onValueChange={setPriceRange}
@@ -118,34 +149,34 @@ export default function CategoryProductsPage({ onAddToCart }: CategoryProductsPa
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3 p-3 bg-muted/50 rounded-xl">
                   <Checkbox 
                     id="inStock" 
                     checked={inStockOnly}
                     onCheckedChange={(c) => setInStockOnly(c as boolean)}
                   />
-                  <Label htmlFor="inStock">In Stock Only</Label>
+                  <Label htmlFor="inStock" className="flex-1 cursor-pointer">In Stock Only</Label>
                 </div>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-3 p-3 bg-muted/50 rounded-xl">
                   <Checkbox 
                     id="fastTrack" 
                     checked={fastTrackOnly}
                     onCheckedChange={(c) => setFastTrackOnly(c as boolean)}
                   />
-                  <Label htmlFor="fastTrack">Fast Track Eligible</Label>
+                  <Label htmlFor="fastTrack" className="flex-1 cursor-pointer">Fast Track Eligible</Label>
                 </div>
 
-                <Button className="w-full">Apply Filters</Button>
+                <Button className="w-full rounded-xl h-12">Apply Filters</Button>
               </div>
             </SheetContent>
           </Sheet>
         </div>
 
         {/* Sort & Subcategories */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
           <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-auto min-w-[140px]">
+            <SelectTrigger className="w-auto min-w-[140px] rounded-full bg-muted/50 border-0">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
@@ -160,7 +191,7 @@ export default function CategoryProductsPage({ onAddToCart }: CategoryProductsPa
             <Badge 
               key={sub} 
               variant={sub === 'All' ? 'default' : 'outline'}
-              className="cursor-pointer whitespace-nowrap"
+              className="cursor-pointer whitespace-nowrap rounded-full px-4 py-1.5"
             >
               {sub}
             </Badge>
@@ -168,77 +199,130 @@ export default function CategoryProductsPage({ onAddToCart }: CategoryProductsPa
         </div>
       </header>
 
+      {/* Products Grid - Blinkit Style */}
       <div className="p-4 grid grid-cols-2 gap-3">
-        {filteredProducts.map(product => (
-          <Card key={product.id} className="overflow-hidden">
-            <div className="relative">
-              <img 
-                src={product.image} 
-                alt={product.name}
-                className="w-full h-32 object-cover bg-muted cursor-pointer"
-                onClick={() => navigate(`/products/${product.id}`)}
-              />
-              <Button 
-                variant="ghost" 
-                size="icon-sm"
-                className="absolute top-2 right-2 bg-background/80 backdrop-blur-sm"
-              >
-                <Heart className="w-4 h-4" />
-              </Button>
-              {product.isFastTrack && (
-                <Badge className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs">
-                  <Zap className="w-3 h-3 mr-0.5" />
-                  Fast
-                </Badge>
-              )}
-            </div>
-            
-            <div className="p-3">
-              <h3 
-                className="font-medium text-sm line-clamp-2 cursor-pointer"
-                onClick={() => navigate(`/products/${product.id}`)}
-              >
-                {product.name}
-              </h3>
-              <p className="text-xs text-muted-foreground mt-1">{product.partNumber}</p>
-              
-              <div className="flex items-center gap-2 mt-2">
-                <span className="font-bold text-primary">₹{product.price.toLocaleString()}</span>
-                {product.originalPrice && (
-                  <span className="text-xs text-muted-foreground line-through">
-                    ₹{product.originalPrice.toLocaleString()}
-                  </span>
+        {filteredProducts.map((product, index) => {
+          const cartQty = getCartQuantity(product.id);
+          const discountPercent = product.originalPrice 
+            ? Math.round((1 - product.price / product.originalPrice) * 100)
+            : null;
+          const rating = 4.2;
+          const reviews = Math.floor(Math.random() * 5000) + 100;
+
+          return (
+            <div 
+              key={product.id} 
+              className="bg-card border border-border rounded-2xl overflow-hidden flex flex-col animate-scale-in hover:shadow-lg transition-shadow active:scale-[0.98]"
+              style={{ animationDelay: `${index * 50}ms` }}
+              onClick={() => navigate(`/products/${product.id}`)}
+            >
+              {/* Image Container */}
+              <div className="relative aspect-square bg-muted/30 p-2">
+                {/* Wishlist */}
+                <button 
+                  onClick={(e) => { e.stopPropagation(); toggleWishlist(product.id); }}
+                  className="absolute top-2 right-2 z-10 w-7 h-7 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center shadow-sm"
+                >
+                  <Heart className={`w-3.5 h-3.5 ${wishlist.has(product.id) ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`} />
+                </button>
+
+                {/* Fast Track Badge */}
+                {product.isFastTrack && (
+                  <Badge className="absolute top-2 left-2 bg-primary text-primary-foreground text-[10px] px-1.5 py-0.5">
+                    <Zap className="w-2.5 h-2.5 mr-0.5" />
+                    Fast
+                  </Badge>
+                )}
+
+                <img 
+                  src={product.image} 
+                  alt={product.name}
+                  className="w-full h-full object-contain"
+                />
+
+                {/* ADD Button - Blinkit Style */}
+                {product.inStock && (
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
+                    {cartQty > 0 ? (
+                      <div className="flex items-center bg-primary rounded-lg overflow-hidden shadow-lg">
+                        <button 
+                          className="text-primary-foreground hover:bg-primary-foreground/20 h-7 px-2.5"
+                          onClick={(e) => handleRemoveFromCart(e, product.id)}
+                        >
+                          <Minus className="w-3.5 h-3.5" />
+                        </button>
+                        <span className="text-primary-foreground font-bold text-xs min-w-[20px] text-center">
+                          {cartQty}
+                        </span>
+                        <button 
+                          className="text-primary-foreground hover:bg-primary-foreground/20 h-7 px-2.5"
+                          onClick={(e) => handleAddToCart(e, product)}
+                        >
+                          <Plus className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ) : (
+                      <button 
+                        onClick={(e) => handleAddToCart(e, product)}
+                        className="h-7 px-5 bg-background border border-primary text-primary font-semibold text-xs rounded-lg shadow-lg hover:bg-primary hover:text-primary-foreground transition-colors"
+                      >
+                        ADD
+                      </button>
+                    )}
+                  </div>
+                )}
+
+                {!product.inStock && (
+                  <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
+                    <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-1 rounded">Out of Stock</span>
+                  </div>
                 )}
               </div>
+              
+              {/* Product Info */}
+              <div className="p-2.5 flex flex-col gap-1">
+                <p className="text-[10px] text-muted-foreground font-mono">{product.partNumber}</p>
+                <h3 className="font-medium text-xs line-clamp-2 leading-tight">{product.name}</h3>
+                
+                {/* Rating */}
+                <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-0.5 bg-green-100 text-green-700 px-1 py-0.5 rounded text-[9px] font-semibold">
+                    <Star className="w-2 h-2 fill-current" />
+                    {rating.toFixed(1)}
+                  </div>
+                  <span className="text-[9px] text-muted-foreground">({reviews.toLocaleString()})</span>
+                </div>
 
-              {product.originalPrice && (
-                <Badge variant="destructive" className="mt-1 text-xs">
-                  {Math.round((1 - product.price / product.originalPrice) * 100)}% off
-                </Badge>
-              )}
+                {/* Delivery */}
+                <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                  <Clock className="w-2.5 h-2.5" />
+                  {product.deliveryTime}
+                </div>
 
-              <p className={`text-xs mt-2 ${product.inStock ? 'text-green-600' : 'text-red-500'}`}>
-                {product.inStock ? `✓ In Stock (${product.stockQuantity})` : '✗ Out of Stock'}
-              </p>
-
-              <Button 
-                size="sm" 
-                className="w-full mt-3"
-                onClick={() => handleAddToCart(product)}
-                disabled={!product.inStock}
-              >
-                <ShoppingCart className="w-4 h-4 mr-1" />
-                Add to Cart
-              </Button>
+                {/* Price */}
+                <div className="mt-1">
+                  {discountPercent && (
+                    <span className="text-[10px] font-semibold text-green-600">{discountPercent}% OFF</span>
+                  )}
+                  <div className="flex items-baseline gap-1">
+                    <span className="font-bold text-sm">₹{product.price.toLocaleString()}</span>
+                    {product.originalPrice && (
+                      <span className="text-[10px] text-muted-foreground line-through">
+                        MRP ₹{product.originalPrice.toLocaleString()}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
-          </Card>
-        ))}
+          );
+        })}
       </div>
 
       {filteredProducts.length === 0 && (
         <div className="flex flex-col items-center justify-center py-12">
           <p className="text-muted-foreground">No products found</p>
-          <Button variant="outline" className="mt-4" onClick={() => {
+          <Button variant="outline" className="mt-4 rounded-full" onClick={() => {
             setPriceRange([0, 50000]);
             setInStockOnly(false);
             setFastTrackOnly(false);

@@ -26,33 +26,54 @@ export function CartPreview({ cart, products, onViewCart }: CartPreviewProps) {
     return product?.isFastTrack;
   });
 
+  // Get first product image for preview
+  const firstProduct = products.find(p => p.id === cart[0]?.productId);
+
   return (
     <div className="fixed bottom-16 left-0 right-0 z-40 px-4 pb-2 safe-bottom animate-slide-up">
       <button 
         onClick={onViewCart}
-        className="w-full bg-gradient-ace text-primary-foreground rounded-2xl p-4 shadow-ace-lg glow-orange flex items-center justify-between active:scale-[0.99] transition-transform"
+        className="w-full bg-primary text-primary-foreground rounded-2xl px-4 py-3 shadow-xl flex items-center justify-between active:scale-[0.99] transition-all duration-200 hover:shadow-2xl"
       >
         <div className="flex items-center gap-3">
-          <div className="relative">
-            <ShoppingCart className="w-6 h-6" />
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-background text-primary text-[10px] font-bold rounded-full flex items-center justify-center">
+          {/* Cart Icon with Item Preview */}
+          <div className="relative flex items-center">
+            <div className="w-10 h-10 rounded-xl bg-primary-foreground/20 flex items-center justify-center overflow-hidden">
+              {firstProduct?.image ? (
+                <img src={firstProduct.image} alt="" className="w-8 h-8 object-contain" />
+              ) : (
+                <ShoppingCart className="w-5 h-5" />
+              )}
+            </div>
+            {/* Item count badge */}
+            <span className="absolute -top-1 -right-1 w-5 h-5 bg-background text-primary text-[10px] font-bold rounded-full flex items-center justify-center shadow-sm">
               {totalItems}
             </span>
           </div>
+          
           <div className="text-left">
-            <p className="text-sm font-semibold">{totalItems} item{totalItems > 1 ? 's' : ''}</p>
-            {hasFastTrack && (
-              <p className="text-xs opacity-90 flex items-center gap-1">
-                <Zap className="w-3 h-3" />
-                Fast Track Available
-              </p>
-            )}
+            <p className="text-sm font-bold">View cart</p>
+            <p className="text-xs opacity-90 flex items-center gap-1">
+              {totalItems} item{totalItems > 1 ? 's' : ''}
+              {hasFastTrack && (
+                <>
+                  <span className="mx-1">•</span>
+                  <Zap className="w-3 h-3" />
+                  Fast Track
+                </>
+              )}
+            </p>
           </div>
         </div>
         
         <div className="flex items-center gap-2">
-          <span className="text-lg font-bold">₹{totalPrice.toLocaleString()}</span>
-          <ChevronRight className="w-5 h-5" />
+          <div className="text-right">
+            <span className="text-lg font-bold">₹{totalPrice.toLocaleString()}</span>
+            <p className="text-[10px] opacity-75">TOTAL</p>
+          </div>
+          <div className="w-8 h-8 rounded-full bg-primary-foreground/20 flex items-center justify-center">
+            <ChevronRight className="w-5 h-5" />
+          </div>
         </div>
       </button>
     </div>
