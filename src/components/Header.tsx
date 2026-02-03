@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react';
 import { Search, Bell, ShoppingCart, MapPin } from 'lucide-react';
 import { Button } from './ui/button';
-import aceLogo from '@/assets/ace-logo.png';
+import aceLogoBlack from '@/assets/ace-logo-black.png';
+import aceLogoGreen from '@/assets/ace-logo-green.png';
 
 interface HeaderProps {
   cartCount: number;
@@ -9,17 +11,28 @@ interface HeaderProps {
 }
 
 export function Header({ cartCount, onCartClick, onSearchClick }: HeaderProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border safe-top shadow-sm">
       {/* Top Bar with Logo */}
       <div className="px-4 py-2.5 flex items-center justify-between bg-gradient-to-r from-background to-primary/5">
         <div className="flex items-center gap-2">
           <div className="relative">
-            <img src={aceLogo} alt="ACE" className="h-9 w-auto" />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-primary font-bold text-sm leading-tight">GENUINE PARTS</span>
-            <span className="text-[9px] text-muted-foreground">Swift • Secure • Reliable</span>
+            <img 
+              src={isScrolled ? aceLogoGreen : aceLogoBlack} 
+              alt="ACE Genuine Parts" 
+              className="h-8 w-auto transition-all duration-300"
+            />
           </div>
         </div>
         <div className="flex items-center gap-1">
