@@ -26,7 +26,8 @@ export function HeroSection({ onExploreClick }: HeroSectionProps) {
             </span>
             <h1 className="text-xl md:text-2xl font-bold leading-tight mb-2">
               <span className="text-primary">ACE</span>
-              <span style={{ color: '#FFFFFF' }}> GENUINE PARTS</span>
+              <span style={{ color: '#FFFFFF' }}> GENUINE </span>
+              <span style={{ color: '#BFFF00' }}>PARTS</span>
             </h1>
             <p className="text-xs text-white/80 mb-3 leading-relaxed">
               Original equipment parts for peak performance
