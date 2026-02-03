@@ -59,17 +59,17 @@ export default function SplashScreen() {
           />
         </div>
 
-        {/* Full Logo - Appears after icon */}
+        {/* Full Logo Text - Appears after icon */}
         <div 
           className={`mt-6 transition-all duration-700 ${
             phase >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          <img 
-            src={aceLogoBlack} 
-            alt="ACE Genuine Parts" 
-            className="h-10 md:h-12 w-auto"
-          />
+          <h1 className="text-2xl md:text-3xl font-bold tracking-wide">
+            <span className="text-primary">ACE</span>
+            <span className="text-foreground ml-2">GENUINE</span>
+            <span className="text-foreground ml-2">PARTS</span>
+          </h1>
         </div>
 
         {/* Tagline */}
