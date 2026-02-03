@@ -11,6 +11,8 @@ import { QuickAccessCards } from '@/components/QuickAccessCards';
 import { CartPreview } from '@/components/CartPreview';
 import { BottomNav } from '@/components/BottomNav';
 import { SearchModal } from '@/components/SearchModal';
+import { CTASection } from '@/components/CTASection';
+import { Footer } from '@/components/Footer';
 import { categories, products, equipment, offers, Product } from '@/data/mockData';
 import { toast } from '@/hooks/use-toast';
 import { DEMO_USER } from '@/hooks/useDemoUser';
@@ -163,6 +165,9 @@ const Index = ({ cart, setCart, onAddToCart }: IndexProps) => {
             onRemoveFromCart={handleRemoveFromCart}
           />
         )}
+        
+        <CTASection />
+        <Footer />
       </main>
       
       <CartPreview 
