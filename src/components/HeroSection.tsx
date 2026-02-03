@@ -24,8 +24,9 @@ export function HeroSection({ onExploreClick }: HeroSectionProps) {
             <span className="inline-block px-2 py-0.5 bg-primary/90 text-primary-foreground text-[10px] font-bold rounded-full mb-2">
               GENUINE PARTS
             </span>
-            <h1 className="text-xl md:text-2xl font-bold text-white leading-tight mb-2">
-              ACE Genuine Parts
+            <h1 className="text-xl md:text-2xl font-bold leading-tight mb-2">
+              <span className="text-primary">ACE</span>
+              <span className="text-white"> GENUINE PARTS</span>
             </h1>
             <p className="text-xs text-white/80 mb-3 leading-relaxed">
               Original equipment parts for peak performance
