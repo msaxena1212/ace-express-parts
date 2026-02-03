@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Phone, Mail, Facebook, Youtube, Linkedin, Instagram, Twitter, Shield, CreditCard, Wallet, Banknote } from 'lucide-react';
+import swadeshiBadge from '@/assets/swadeshi-badge.png';
 
 export const Footer = () => {
   return (
@@ -99,17 +100,11 @@ export const Footer = () => {
 
         {/* Swadeshi Badge */}
         <div className="flex items-center justify-center pt-4 border-t border-background/10">
-          <div className="flex items-center gap-2 bg-background/5 px-4 py-2 rounded-lg">
-            <span className="text-2xl font-bold text-primary">100%</span>
-            <div className="text-left">
-              <span className="text-xl font-bold text-primary">Swadeshi</span>
-              <div className="flex gap-0.5">
-                <div className="w-6 h-1 bg-primary rounded"></div>
-                <div className="w-6 h-1 bg-background rounded"></div>
-                <div className="w-6 h-1 bg-success rounded"></div>
-              </div>
-            </div>
-          </div>
+          <img 
+            src={swadeshiBadge} 
+            alt="100% Swadeshi" 
+            className="h-14 w-auto object-contain"
+          />
         </div>
 
         {/* Copyright */}
