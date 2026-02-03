@@ -1,8 +1,10 @@
 import { Product } from '@/data/mockData';
 import { Button } from './ui/button';
-import { Plus, Minus, Zap, Clock, Star, Heart } from 'lucide-react';
+import { Plus, Minus, Zap, Clock, Star, Heart, Share2 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useWishlist } from '@/hooks/useWishlist';
+import { toast } from '@/hooks/use-toast';
 
 interface ProductCardProps {
   product: Product;
@@ -13,8 +15,10 @@ interface ProductCardProps {
 
 export function ProductCard({ product, cartQuantity, onAddToCart, onRemoveFromCart }: ProductCardProps) {
   const [isAdding, setIsAdding] = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const navigate = useNavigate();
+  const { isInWishlist, toggleWishlist } = useWishlist();
+  
+  const isWishlisted = isInWishlist(product.id);
   
   const handleAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -28,9 +32,34 @@ export function ProductCard({ product, cartQuantity, onAddToCart, onRemoveFromCa
     onRemoveFromCart(product.id);
   };
 
-  const handleWishlist = (e: React.MouseEvent) => {
+  const handleWishlist = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsWishlisted(!isWishlisted);
+    await toggleWishlist(product.id);
+  };
+
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    const shareData = {
+      title: product.name,
+      text: `Check out ${product.name} - ₹${product.price.toLocaleString()} on ACE Genuine Parts`,
+      url: `${window.location.origin}/products/${product.id}`
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: copy to clipboard
+        await navigator.clipboard.writeText(shareData.url);
+        toast({
+          title: "Link copied!",
+          description: "Product link copied to clipboard"
+        });
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
   };
 
   const discountPercent = product.originalPrice 
@@ -48,13 +77,21 @@ export function ProductCard({ product, cartQuantity, onAddToCart, onRemoveFromCa
     >
       {/* Product Image */}
       <div className="relative aspect-square bg-muted/50 p-3">
-        {/* Wishlist Button */}
-        <button 
-          onClick={handleWishlist}
-          className="absolute top-2 right-2 z-10 w-8 h-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center shadow-sm transition-transform hover:scale-110"
-        >
-          <Heart className={`w-4 h-4 transition-colors ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`} />
-        </button>
+        {/* Wishlist & Share Buttons - Myntra Style */}
+        <div className="absolute top-2 right-2 z-10 flex flex-col gap-1.5">
+          <button 
+            onClick={handleWishlist}
+            className="w-8 h-8 rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center shadow-md transition-all hover:scale-110 active:scale-95"
+          >
+            <Heart className={`w-4 h-4 transition-colors ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`} />
+          </button>
+          <button 
+            onClick={handleShare}
+            className="w-8 h-8 rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center shadow-md transition-all hover:scale-110 active:scale-95"
+          >
+            <Share2 className="w-4 h-4 text-muted-foreground" />
+          </button>
+        </div>
 
         <img 
           src={product.image} 
