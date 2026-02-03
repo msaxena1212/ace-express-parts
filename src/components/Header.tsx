@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Search, Bell, ShoppingCart, MapPin } from 'lucide-react';
+import { Search, Bell, ShoppingCart, MapPin, Heart } from 'lucide-react';
 import { Button } from './ui/button';
+import { useNavigate } from 'react-router-dom';
+import { useWishlist } from '@/hooks/useWishlist';
 import aceLogoBlack from '@/assets/ace-logo-black.png';
 import aceLogoGreen from '@/assets/ace-logo-green.png';
 
@@ -12,6 +14,8 @@ interface HeaderProps {
 
 export function Header({ cartCount, onCartClick, onSearchClick }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
+  const { wishlistCount } = useWishlist();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +40,19 @@ export function Header({ cartCount, onCartClick, onSearchClick }: HeaderProps) {
           </div>
         </div>
         <div className="flex items-center gap-1">
+          <Button 
+            variant="ghost" 
+            size="icon-sm" 
+            className="relative hover:bg-primary/10"
+            onClick={() => navigate('/wishlist')}
+          >
+            <Heart className="w-5 h-5 text-foreground" />
+            {wishlistCount > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                {wishlistCount}
+              </span>
+            )}
+          </Button>
           <Button variant="ghost" size="icon-sm" className="relative hover:bg-primary/10">
             <Bell className="w-5 h-5 text-foreground" />
             <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-primary text-primary-foreground text-[10px] font-bold rounded-full flex items-center justify-center animate-pulse">
