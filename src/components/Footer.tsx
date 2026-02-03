@@ -1,42 +1,38 @@
 import { Link } from 'react-router-dom';
-import { Phone, Mail, Facebook, Youtube, Linkedin, Instagram, Twitter, Shield, CreditCard, Wallet, Banknote } from 'lucide-react';
+import { Phone, Mail, Facebook, Youtube, Linkedin, Instagram, Twitter, Shield } from 'lucide-react';
 import swadeshiBadge from '@/assets/swadeshi-badge.png';
+import equipmentBanner from '@/assets/equipment-banner.png';
 
 export const Footer = () => {
   return (
     <footer className="bg-foreground text-background mt-8">
-      {/* Equipment Banner */}
-      <div className="bg-muted py-3 overflow-hidden">
-        <div className="flex items-center justify-center gap-4 opacity-60">
-          <img src="/images/equipment/crawler-cranes.png" alt="" className="h-12 object-contain" />
-          <img src="/images/equipment/pick-carry-cranes.png" alt="" className="h-12 object-contain" />
-          <img src="/images/equipment/tower-cranes.png" alt="" className="h-12 object-contain" />
-          <img src="/images/equipment/fork-lift.png" alt="" className="h-12 object-contain" />
-          <img src="/images/equipment/grader.png" alt="" className="h-12 object-contain" />
-        </div>
+      {/* Equipment Banner - User uploaded image */}
+      <div className="bg-background py-4">
+        <img 
+          src={equipmentBanner} 
+          alt="ACE Equipment Range" 
+          className="w-full h-auto object-contain"
+        />
       </div>
 
       {/* Payment Methods */}
-      <div className="bg-card py-4 border-b border-border">
-        <p className="text-center text-xs text-muted-foreground tracking-widest mb-3">
-          100% SECURED PAYMENTS WITH SSL SECURITY
-        </p>
-        <div className="flex items-center justify-center gap-6">
-          <div className="flex flex-col items-center gap-1">
-            <Wallet className="w-6 h-6 text-primary" />
-            <span className="text-xs text-muted-foreground">UPI</span>
+      <div className="bg-card py-5 border-b border-border">
+        <div className="flex items-center justify-center gap-2 mb-3">
+          <Shield className="w-4 h-4 text-primary" />
+          <p className="text-xs text-muted-foreground tracking-wide">
+            100% SECURED PAYMENTS
+          </p>
+        </div>
+        <div className="flex items-center justify-center gap-4 flex-wrap px-4">
+          <img src="/images/payment/upi.svg" alt="UPI" className="h-8 object-contain" />
+          <img src="/images/payment/visa.svg" alt="Visa" className="h-6 object-contain" />
+          <img src="/images/payment/mastercard.svg" alt="Mastercard" className="h-8 object-contain" />
+          <img src="/images/payment/amex.svg" alt="American Express" className="h-8 object-contain" />
+          <div className="flex items-center gap-1 bg-muted px-3 py-1.5 rounded">
+            <span className="text-xs font-semibold text-foreground">Net Banking</span>
           </div>
-          <div className="flex flex-col items-center gap-1">
-            <CreditCard className="w-6 h-6 text-primary" />
-            <span className="text-xs text-muted-foreground">Cards</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <Shield className="w-6 h-6 text-primary" />
-            <span className="text-xs text-muted-foreground">Net Banking</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <Banknote className="w-6 h-6 text-primary" />
-            <span className="text-xs text-muted-foreground">COD</span>
+          <div className="flex items-center gap-1 bg-primary/10 px-3 py-1.5 rounded">
+            <span className="text-xs font-semibold text-primary">COD</span>
           </div>
         </div>
       </div>
@@ -98,12 +94,12 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Swadeshi Badge */}
+        {/* Swadeshi Badge - Enlarged */}
         <div className="flex items-center justify-center pt-4 border-t border-background/10">
           <img 
             src={swadeshiBadge} 
             alt="100% Swadeshi" 
-            className="h-14 w-auto object-contain"
+            className="h-20 w-auto object-contain"
           />
         </div>
 
